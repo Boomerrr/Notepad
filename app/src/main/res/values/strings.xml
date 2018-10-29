@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Notepad</string>
+    <string name="login">登录</string>
+    <string name="signin">注册</string>
+    <string name="input_username">此处请输入账户</string>
+    <string name="input_password">此处请输入密码</string>
+    <string name="input_password_again">请再次输入密码</string>
+    <string name="input_tel">请输入联系方式</string>
+    <string name="back">返回</string>
+    <string name="tel">联系电话</string>
+    <string name="remrember_pass">记住密码</string>
+    <string name="reset">重置</string>
+
+    <string name="test">测试</string>
+
+    <string name="main">主页</string>
+    <string name="info">个人信息</string>
+    <string name="weather">天气</string>
+    <string name="add">添加事件</string>
+    <string name="message">消息</string>
+    
+    <string name="theme">主题</string>
+    <string name="inputText">请输入事件内容</string>
+
+    <string name="orderTime">预定时间</string>
+    <string name="remindTime">提醒时间</string>
+    <string name="sure">确定</string>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value = "cool_weather"/>
+
+    <cersion value = "1"/>
+    <list>
+        <mapping class = "com.example.think.notepad.db.Province"/>
+        <mapping class = "com.example.think.notepad.db.City"/>
+        <mapping class = "com.example.think.notepad.db.County"/>
+    </list>
+
+</litepal>
