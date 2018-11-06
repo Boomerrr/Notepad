@@ -1,6 +1,7 @@
 package com.example.think.notepad.Activity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -28,6 +29,8 @@ import com.example.think.notepad.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.namespace.NamespaceContext;
+
 /*
 * 记事本的主界面
 * 由几个Fragment组成以及一个DrawableLayout的侧滑栏
@@ -37,8 +40,9 @@ public class WorkActivity extends AppCompatActivity implements IView{
     private List<BaseFragment> mBaseFragment;
     private int position;
     private Fragment mContent;
-
+    private ProgressDialog progressDialog;
     private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +104,6 @@ public class WorkActivity extends AppCompatActivity implements IView{
             navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
                     switch (menuItem.getItemId()){
                         case R.id.main:
                             position = 0;
@@ -168,11 +171,18 @@ public class WorkActivity extends AppCompatActivity implements IView{
 
     private void init() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawablelayout);
-
+        navigationView = (NavigationView)findViewById(R.id.nav_view);
+        progressDialog = new ProgressDialog(WorkActivity.this);
     }
 
 
+    @Override
+    public void showProgress() {
+        progressDialog.show();
+    }
 
-
-
+    @Override
+    public void hideProgress() {
+        progressDialog.hide();
+    }
 }

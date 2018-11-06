@@ -4,6 +4,7 @@
         <item
             android:id="@+id/main"
             android:icon="@mipmap/main"
+            android:checked="true"
             android:title="@string/main"/>
         <item
             android:id="@+id/info"

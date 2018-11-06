@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/relativelayout"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_main"
+        android:background="@android:color/holo_blue_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/head_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/strawberry"/>
+            <TextView
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/main"/>
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
 <android.support.v7.widget.RecyclerView
     android:layout_width="match_parent"
+    android:layout_below="@id/toolbar_main"
     android:layout_height="match_parent"
-    android:id="@+id/recycelr_main"></android.support.v7.widget.RecyclerView>
-</android.support.constraint.ConstraintLayout>
+    android:id="@+id/recycelr_main">
+</android.support.v7.widget.RecyclerView>
+</RelativeLayout>

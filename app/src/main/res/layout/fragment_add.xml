@@ -4,8 +4,67 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/theme"/>
+   <android.support.v7.widget.Toolbar
+       android:id="@+id/toolbar_add"
+       android:background="@android:color/holo_blue_light"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+     <RelativeLayout
+         android:orientation="horizontal"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/head_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/strawberry"/>
+         <TextView
+             android:layout_centerInParent="true"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/add"/>
+     </RelativeLayout>
+   </android.support.v7.widget.Toolbar>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/theme" />
+        <EditText
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/input"/>
+        <TextView
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text"/>
+        <EditText
+            android:id="@+id/text"
+            android:gravity="top"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:hint="@string/input" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/remindTime"
+            android:id="@+id/time_picker_text"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/orderTime"
+            android:id="@+id/time_picker_btn"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add"
+            android:id="@+id/add_button"/>
+    </LinearLayout>
 </LinearLayout>

@@ -6,8 +6,11 @@ import android.os.Bundle;
 
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +21,12 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
+import com.example.think.notepad.Activity.WorkActivity;
 import com.example.think.notepad.Base.BaseFragment;
 import com.example.think.notepad.Bean.LocationBean;
 import com.example.think.notepad.Bean.NowLifestyle;
 import com.example.think.notepad.Bean.NowTmp;
+import com.example.think.notepad.Location;
 import com.example.think.notepad.R;
 import com.example.think.notepad.Thread.NowLifestyleThread;
 import com.example.think.notepad.Thread.NowTmpThread;
@@ -30,32 +35,14 @@ import org.w3c.dom.Text;
 
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /*
-*
-* Create by Boomerr Yi
-* 这个fragment主要是为了对当前的天气状况进行一个表达
-* 主要运用了百度地图的定位功能
-* 以及和风天气的天气播报功能，由于和风天气的接口限制原因，每天对于天气预测的访问次数有限
+* Create by Boomerr Yi   2018/11/5
 *
 * */
 public class WeatherFragment extends BaseFragment {
-    Handler handler1 = new Handler(){
-        @Override
-        public  void handleMessage(Message msg) {
-            Bundle bundle = msg.getData();
-            TextView loaction = getView().findViewById(R.id.locationText);
-            loaction.setText( bundle.getString("tmp"));
-        }
-    };
-    Handler handler2 = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            Bundle bundle = msg.getData();
-        }
-    };
 
-    public LocationClient mLocationClient;
-    protected Context mContext;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -67,64 +54,44 @@ public class WeatherFragment extends BaseFragment {
 
     protected View initView() {
         View view = View.inflate(mContext,R.layout.fragment_weather,null);
-        mLocationClient=new LocationClient(mContext);//获取定位对象
-        mLocationClient.registerLocationListener(new MyLocationListener());
-        SDKInitializer.initialize(Objects.requireNonNull(getActivity()).getApplicationContext());
-        TextView Location = (TextView) view.findViewById(R.id.locationText);
-        requestLocation();
+        TextView country = (TextView) view.findViewById(R.id.country);
+        TextView province = (TextView) view.findViewById(R.id.province);
+        TextView city = (TextView) view.findViewById(R.id.city);
+        TextView distract = (TextView) view.findViewById(R.id.distract);
+        TextView cond_txt = (TextView) view.findViewById(R.id.cond_txt);
+        TextView tmp = (TextView) view.findViewById(R.id.tmp);
+        TextView wind_dir = (TextView) view.findViewById(R.id.wind_dir);
+        TextView cloud = (TextView) view.findViewById(R.id.cloud);
+        TextView _wind_sc= (TextView) view.findViewById(R.id._wind_sc);
+        country.setText(Location.country);
+        province.setText(Location.province);
+        city.setText(Location.city);
+        distract.setText(Location.distract);
+        cond_txt.setText(Location.cond_txt);
+        tmp.setText(Location.tmp);
+        wind_dir.setText(Location.wind_dir);
+        cloud.setText(Location.cloud);
+        _wind_sc.setText(Location._wind_sc);
+        CircleImageView headImage = (CircleImageView) view.findViewById(R.id.head_image);
+        headImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WorkActivity workActivity = (WorkActivity)getActivity();
+                DrawerLayout drawerLayout =  workActivity.findViewById(R.id.drawablelayout);
+                drawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });
         return view;
     }
+
 
 
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
     }
 
-
-    private void requestLocation() {
-        initLocation();
-        mLocationClient.start();
-    }
-
-    private void initLocation() {
-        LocationClientOption option = new LocationClientOption();
-        option.setScanSpan(5000);
-        option.setIsNeedAddress(true);
-        mLocationClient.setLocOption(option);
-    }
-    public void onDestroy(){
-        super.onDestroy();
-        mLocationClient.stop();
-    }
-    public class MyLocationListener implements BDLocationListener{
-
-        @Override
-        public void onReceiveLocation(BDLocation bdLocation) {
-            StringBuilder currentPosition = new StringBuilder();
-            currentPosition.append("纬度 ").append(bdLocation.getLatitude()).append("\n");
-            currentPosition.append("经线 ").append(bdLocation.getLongitude()).append("\n");
-            currentPosition.append("国家 ").append(bdLocation.getCountry()).append("\n");
-            currentPosition.append("省 ").append(bdLocation.getProvince()).append("\n");
-            currentPosition.append("市 ").append(bdLocation.getCityCode()).append("\n");
-            currentPosition.append("区 ").append(bdLocation.getDistrict()).append("\n");
-            currentPosition.append("街道 ").append(bdLocation.getStreet()).append("\n");
-            LocationBean locationBean = new LocationBean();
-            locationBean.setCountry(bdLocation.getCountry());
-            locationBean.setProvince(bdLocation.getProvince());
-            locationBean.setCity(bdLocation.getCity());
-            locationBean.setDistract(bdLocation.getDistrict());
-            String distract = bdLocation.getDistrict();
-            Log.e("test----Boomerr",distract);
-            NowTmpThread nowTmpThread = new NowTmpThread(distract,handler1);
-            nowTmpThread.run();
-            NowLifestyleThread nowLifestyleThread = new NowLifestyleThread(distract,handler2);
-            nowLifestyleThread.run();
-
-        }
-
-
-    }
 }
+
 
 
 
