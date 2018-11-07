@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.think.notepad.Activity.WorkActivity;

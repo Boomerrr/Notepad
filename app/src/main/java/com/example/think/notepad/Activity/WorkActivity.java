@@ -14,6 +14,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -43,6 +45,7 @@ public class WorkActivity extends AppCompatActivity implements IView{
     private ProgressDialog progressDialog;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private ImageView exit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,9 +176,16 @@ public class WorkActivity extends AppCompatActivity implements IView{
         drawerLayout = (DrawerLayout) findViewById(R.id.drawablelayout);
         navigationView = (NavigationView)findViewById(R.id.nav_view);
         progressDialog = new ProgressDialog(WorkActivity.this);
+        exit = (ImageView) findViewById(R.id.exit);
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
-
+    
     @Override
     public void showProgress() {
         progressDialog.show();

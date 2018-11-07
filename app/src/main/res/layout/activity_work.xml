@@ -19,5 +19,26 @@
        android:background="@android:color/holo_blue_light"
        android:layout_gravity="start"
        app:menu="@menu/nav_menu"
-       app:headerLayout="@layout/nav_header"/>
+       app:headerLayout="@layout/nav_header" >
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+           <ImageView
+               android:layout_marginHorizontal="15dp"
+               android:id="@+id/exit"
+                android:layout_above="@id/exitText"
+               android:layout_width="25dp"
+               android:layout_height="25dp"
+               android:src="@mipmap/exit"
+               android:background="@android:color/transparent"/>
+           <TextView
+               android:layout_marginHorizontal="15dp"
+               android:layout_marginBottom="20dp"
+               android:id="@+id/exitText"
+               android:layout_alignParentBottom="true"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/exit"/>
+       </RelativeLayout>
+   </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>

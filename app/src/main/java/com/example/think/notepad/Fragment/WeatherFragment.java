@@ -63,6 +63,8 @@ public class WeatherFragment extends BaseFragment {
         TextView wind_dir = (TextView) view.findViewById(R.id.wind_dir);
         TextView cloud = (TextView) view.findViewById(R.id.cloud);
         TextView _wind_sc= (TextView) view.findViewById(R.id._wind_sc);
+        TextView brf = (TextView) view.findViewById(R.id.brf);
+        TextView txt = (TextView) view.findViewById(R.id.txt);
         country.setText(Location.country);
         province.setText(Location.province);
         city.setText(Location.city);
@@ -72,6 +74,8 @@ public class WeatherFragment extends BaseFragment {
         wind_dir.setText(Location.wind_dir);
         cloud.setText(Location.cloud);
         _wind_sc.setText(Location._wind_sc);
+        brf.setText(Location.brf);
+        txt.setText(Location.txt);
         CircleImageView headImage = (CircleImageView) view.findViewById(R.id.head_image);
         headImage.setOnClickListener(new View.OnClickListener() {
             @Override

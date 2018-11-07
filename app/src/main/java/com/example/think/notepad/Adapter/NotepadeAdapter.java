@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.think.notepad.Bean.NotePad;
 import com.example.think.notepad.R;
@@ -33,6 +34,19 @@ public class NotepadeAdapter extends RecyclerView.Adapter<NotepadeAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_notepad,viewGroup,false);
         ViewHolder holder = new ViewHolder(view);
+        holder.text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(),"短按",Toast.LENGTH_SHORT).show();
+            }
+        });
+        holder.text.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Toast.makeText(view.getContext(), "长按", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
         return holder;
     }
 
@@ -48,4 +62,8 @@ public class NotepadeAdapter extends RecyclerView.Adapter<NotepadeAdapter.ViewHo
     public int getItemCount() {
         return notePadList.size();
     }
+    public interface OnClickListener {
+        void onClick(View view, int position);
+    }
+
 }
