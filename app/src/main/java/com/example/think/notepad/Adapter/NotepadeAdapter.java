@@ -11,10 +11,11 @@ import android.widget.Toast;
 import com.example.think.notepad.Bean.NotePad;
 import com.example.think.notepad.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NotepadeAdapter extends RecyclerView.Adapter<NotepadeAdapter.ViewHolder>{
-    private List<NotePad> notePadList;
+    private ArrayList<NotePad> notePadList;
 
     static  class ViewHolder extends RecyclerView.ViewHolder{
         TextView title;
@@ -25,15 +26,15 @@ public class NotepadeAdapter extends RecyclerView.Adapter<NotepadeAdapter.ViewHo
             text = (TextView) view.findViewById(R.id.text);
         }
     }
-    public NotepadeAdapter(List<NotePad> notePadList){
+    public NotepadeAdapter(ArrayList<NotePad> notePadList){
         this.notePadList = notePadList;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, final int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_notepad,viewGroup,false);
-        ViewHolder holder = new ViewHolder(view);
+        final ViewHolder holder = new ViewHolder(view);
         holder.text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,6 +45,7 @@ public class NotepadeAdapter extends RecyclerView.Adapter<NotepadeAdapter.ViewHo
             @Override
             public boolean onLongClick(View view) {
                 Toast.makeText(view.getContext(), "长按", Toast.LENGTH_SHORT).show();
+                notePadList.remove(i);
                 return true;
             }
         });
@@ -53,7 +55,7 @@ public class NotepadeAdapter extends RecyclerView.Adapter<NotepadeAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         NotePad notePad = notePadList.get(i);
-        viewHolder.title.setText(notePad.getText()+"  "+notePad.getOrderTime());
+        viewHolder.title.setText(notePad.getTitle()+"  "+notePad.getOrderTime());
         viewHolder.text.setText(notePad.getText());
     }
 

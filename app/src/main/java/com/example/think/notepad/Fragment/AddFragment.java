@@ -1,35 +1,37 @@
 package com.example.think.notepad.Fragment;
 
 import android.app.TimePickerDialog;
-import android.content.ContentValues;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 
 import com.example.think.notepad.Activity.WorkActivity;
 import com.example.think.notepad.Base.BaseFragment;
+import com.example.think.notepad.Bean.NotePad;
+import com.example.think.notepad.Location;
 import com.example.think.notepad.R;
 import com.example.think.notepad.SQLite.NotepadDatabaseHelper;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.content.Context.MODE_APPEND;
+import static com.example.think.notepad.Contracts.FILE_NAME;
+
 /*
 * Create By Boomerr Yi 2018/11/6
 * */
 public class AddFragment extends BaseFragment {
-    private NotepadDatabaseHelper notepadDatabaseHelper;
+
     @Override
     protected View initView() {
         View view=View.inflate(mContext, R.layout.fragment_add,null);
@@ -52,14 +54,14 @@ public class AddFragment extends BaseFragment {
                 drawerLayout.openDrawer(Gravity.LEFT);
             }
         });
-        final Calendar d = Calendar.getInstance();
+
         timePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new TimePickerDialog(getActivity(), 0, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-
+                        Calendar d = Calendar.getInstance();
                         d.setTimeInMillis(System.currentTimeMillis());
                         String date = "" + hourOfDay + " : " + minute;
                         timePickerText.setText(date);
@@ -71,24 +73,27 @@ public class AddFragment extends BaseFragment {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String time = (String) timePickerText.getText();
-                String titleText  = String.valueOf(title.getText());
-                Log.e("Boomerr---test",titleText);
-                String textText = String.valueOf(text.getText());
-                Log.e("Boomerr---test",textText);
-                notepadDatabaseHelper  = new NotepadDatabaseHelper(getActivity(),"Notepad.db",null,2);
-                SQLiteDatabase db = notepadDatabaseHelper.getWritableDatabase();
-                ContentValues values = new ContentValues();
-                values.put("title",titleText);
-                values.put("time",time);
-                values.put("text",textText);
-                //if(titleText!=null&&time!=null&&textText!=null)
-                db.insert("Notepad",null,values);
-                values.clear();
-
+                NotePad notePad = new NotePad();
+                notePad.setOrderTime(timePickerText.getText().toString());
+                notePad.setText(text.getText().toString());
+                notePad.setTitle(title.getText().toString());
+                Location location = (Location) getActivity().getApplication();
+                location.notepadArrayList.add(notePad);
+                writeAdd(notePad.getTitle());
+                writeAdd(notePad.getOrderTime());
+                writeAdd(notePad.getText());
             }
         });
     }
 
-
+    public  void writeAdd (String content){
+        try {
+            FileOutputStream fos = getActivity().openFileOutput(FILE_NAME, MODE_APPEND);
+            PrintStream ps = new PrintStream(fos);
+            ps.println(content);
+            ps.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }

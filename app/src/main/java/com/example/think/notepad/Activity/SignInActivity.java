@@ -18,7 +18,7 @@ import org.w3c.dom.Text;
 
 /*
 * 注册界面
-* Create by Boomerr Yi
+* Create by Boomerr Yi 2018/11/5
 * */
 public class SignInActivity extends Activity implements View.OnClickListener {
     private Button reset;//重置按钮

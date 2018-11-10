@@ -30,7 +30,7 @@ public class NowTmpThread implements Runnable {
     private Handler handler;
     public NowTmpThread(String distract, Handler handler){
         this.distract = distract;
-       // this.handler = handler;
+       this.handler = handler;
     }
     @Override
     public void run() {
@@ -43,17 +43,18 @@ public class NowTmpThread implements Runnable {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 NowTmp nowTmp =  Utility.handWeatherNowTmpInfo(response.body().string());
-                //Bundle bundle = new Bundle();
-                //bundle.putString("cond_txt",nowTmp.getCond_txt());
-                Location.cond_txt = nowTmp.getCond_txt();
-                //bundle.putString("tmp",nowTmp.getTmp());
-                Location.tmp = nowTmp.getTmp();
-                //bundle.putString("wind_dir",nowTmp.getWind_dir());
-                Location.wind_dir = nowTmp.getWind_dir();
-                //bundle.putString("cloud",nowTmp.getCloud());
-                Location.cloud = nowTmp.getCloud();
-                //bundle.putString("_wind_sc", nowTmp.get_wind_sc());
-                Location._wind_sc = nowTmp.get_wind_sc();
+                Bundle bundle = new Bundle();
+                bundle.putString("cond_txt",nowTmp.getCond_txt());
+
+                bundle.putString("tmp",nowTmp.getTmp());
+                bundle.putString("wind_dir",nowTmp.getWind_dir());
+
+                bundle.putString("cloud",nowTmp.getCloud());
+
+                bundle.putString("_wind_sc", nowTmp.get_wind_sc());
+                Message message = new Message();
+                message.setData(bundle);
+                handler.sendMessage(message);
                 Log.e("Booerr---test","NowTmpThread is right");
             }
         });

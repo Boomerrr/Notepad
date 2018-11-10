@@ -14,7 +14,7 @@ import com.example.think.notepad.R;
 import com.example.think.notepad.SQLite.UserDatabaseHelper;
 /*
 * 登录界面
-* Create by Boomerr Yi
+* Create by Boomerr Yi  2018/11/10
 * */
 
 public class LogInActivity extends Activity implements View.OnClickListener{
