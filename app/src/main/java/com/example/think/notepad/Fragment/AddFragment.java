@@ -1,6 +1,10 @@
 package com.example.think.notepad.Fragment;
 
 import android.app.TimePickerDialog;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.View;
@@ -31,7 +35,7 @@ import static com.example.think.notepad.Contracts.FILE_NAME;
 * Create By Boomerr Yi 2018/11/6
 * */
 public class AddFragment extends BaseFragment {
-
+    private NotepadDatabaseHelper notepadDatabaseHelper;
     @Override
     protected View initView() {
         View view=View.inflate(mContext, R.layout.fragment_add,null);
@@ -40,6 +44,7 @@ public class AddFragment extends BaseFragment {
     }
 
     private void GetWord(View view) {
+        notepadDatabaseHelper = new NotepadDatabaseHelper(getActivity(),"notepad.db",null,1);
         CircleImageView headImg = (CircleImageView) view.findViewById(R.id.head_image);
         final EditText title = (EditText) view.findViewById(R.id.title);
         final EditText text = (EditText) view.findViewById(R.id.text);
@@ -73,27 +78,26 @@ public class AddFragment extends BaseFragment {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                WorkActivity workActivity = (WorkActivity) getActivity();
+                SQLiteDatabase db=notepadDatabaseHelper.getWritableDatabase();
+                ContentValues values=new ContentValues();
+                values.put("title",title.getText().toString());
+                values.put("time",timePickerText.getText().toString());
+                values.put("text",text.getText().toString());
+                db.insert("Notepad",null,values);
+                values.clear();
                 NotePad notePad = new NotePad();
                 notePad.setOrderTime(timePickerText.getText().toString());
                 notePad.setText(text.getText().toString());
                 notePad.setTitle(title.getText().toString());
-                Location location = (Location) getActivity().getApplication();
-                location.notepadArrayList.add(notePad);
-                writeAdd(notePad.getTitle());
-                writeAdd(notePad.getOrderTime());
-                writeAdd(notePad.getText());
+                title.setText("");
+                timePickerText.setText("");
+                text.setText("");
+
+
             }
         });
     }
 
-    public  void writeAdd (String content){
-        try {
-            FileOutputStream fos = getActivity().openFileOutput(FILE_NAME, MODE_APPEND);
-            PrintStream ps = new PrintStream(fos);
-            ps.println(content);
-            ps.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
+
 }

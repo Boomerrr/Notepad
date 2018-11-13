@@ -46,11 +46,17 @@ public class WorkActivity extends AppCompatActivity implements IView{
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ImageView exit;
+    public MainFragment mainFragment;
+    public AddFragment addFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work);
+        mainFragment = new MainFragment();
+        addFragment = new AddFragment();
         init();
+        ActivityCompat.requestPermissions(WorkActivity.this, new String[]{
+                Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS }, 1);
         initFragment();
         requestPermission();
     }
@@ -73,6 +79,7 @@ public class WorkActivity extends AppCompatActivity implements IView{
     }
 
     public void onRequestPermissionResult(int requestCode,String[] permissions,int[] grantResults){
+        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
         switch(requestCode){
             case 1:
                 if(grantResults.length > 0){
@@ -94,11 +101,11 @@ public class WorkActivity extends AppCompatActivity implements IView{
 
     private void initFragment() {
             mBaseFragment=new ArrayList<>();
-            mBaseFragment.add(new MainFragment());
+            mBaseFragment.add(mainFragment);
             mBaseFragment.add(new InfoFragment());
             mBaseFragment.add(new WeatherFragment());
             mBaseFragment.add(new MeaageFragment());
-            mBaseFragment.add(new AddFragment());
+            mBaseFragment.add( addFragment);
 
             final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             position = 0;

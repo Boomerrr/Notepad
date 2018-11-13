@@ -7,6 +7,7 @@ import com.example.think.notepad.Bean.NotePad;
 import java.util.ArrayList;
 
 public class Location extends Application{
+
     public static String country = "";//"中国"//国家
     public static String province = "";//"重庆市";//省市
     public static String city = "";//"重庆市";//城市
@@ -20,6 +21,4 @@ public class Location extends Application{
     public static String wind_dir = "";//"西北风噻";//风向
     public static String cloud = "";//"多的口角的云";//云量
     public static String _wind_sc = "";//"大风刮呀刮";//风力
-
-    public static ArrayList<NotePad> notepadArrayList = new ArrayList<>();
 }

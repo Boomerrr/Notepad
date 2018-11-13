@@ -18,7 +18,7 @@
     <string name="weather">天气</string>
     <string name="add">添加事件</string>
     <string name="message">消息</string>
-    
+
     <string name="theme">主题</string>
     <string name="inputText">请输入事件内容</string>
     <string name="input">请输入</string>
@@ -28,4 +28,7 @@
     <string name="remindTime">提醒时间</string>
     <string name="sure">确定</string>
     <string name="exit">退出</string>
+
+    <string name="send">发送</string>
+    <string name="cancel">取消</string>
 </resources>

@@ -17,11 +17,13 @@ import java.util.List;
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder>{
     private List<message> messageList;
     static class ViewHolder extends RecyclerView.ViewHolder{
-        TextView sender;
+        TextView time;
+        TextView user;
         TextView text;
         public ViewHolder(View view){
             super(view);
-            sender = (TextView) view.findViewById(R.id.sender);
+            time = (TextView) view.findViewById(R.id.time);
+            user = (TextView) view.findViewById(R.id.user);
             text = (TextView) view.findViewById(R.id.text);
         }
     }
@@ -39,7 +41,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull MessageAdapter.ViewHolder viewHolder, int i) {
         message msg = messageList.get(i);
-        viewHolder.sender.setText(msg.getSender()+"  "+msg.getTime());
+        viewHolder.time.setText(msg.getTime());
+        viewHolder.user.setText(msg.getUser());
         viewHolder.text.setText(msg.getText());
     }
 

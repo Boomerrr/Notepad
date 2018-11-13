@@ -2,7 +2,7 @@ package com.example.think.notepad.Bean;
 
 public class message {
     private String time;
-    private String sender;
+    private String user;
     private String text;
 
     public String getTime() {
@@ -13,12 +13,12 @@ public class message {
         this.time = time;
     }
 
-    public String getSender() {
-        return sender;
+    public String getUser() {
+        return user;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public String getText() {

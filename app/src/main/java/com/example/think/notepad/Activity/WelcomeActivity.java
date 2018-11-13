@@ -135,13 +135,6 @@ public class WelcomeActivity extends Activity {
             };
             new NowLifestyleThread(distract,handlerLifestyle).run();
             new NowTmpThread(distract,handlerTmp).run();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Location location = (Location) getApplication();
-                    location.notepadArrayList = read();
-                }
-            });
         }
 
     }

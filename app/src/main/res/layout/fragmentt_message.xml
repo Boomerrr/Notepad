@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,7 +9,12 @@
        android:background="@android:color/holo_blue_light"
        android:layout_width="match_parent"
        android:layout_height="wrap_content">
+      <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
       <RelativeLayout
+          android:layout_marginTop="10dp"
           android:orientation="horizontal"
           android:layout_width="match_parent"
           android:layout_height="wrap_content">
@@ -24,10 +29,17 @@
              android:layout_height="wrap_content"
              android:text="@string/message"/>
       </RelativeLayout>
+         <android.support.design.widget.TabLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/tabs"
+             app:tabMode="fixed">
+         </android.support.design.widget.TabLayout>
+      </LinearLayout>
    </android.support.v7.widget.Toolbar>
-   <android.support.v7.widget.RecyclerView
+   <android.support.v4.view.ViewPager
+       android:id="@+id/viewpager"
        android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:id="@+id/recyceler_message">
-   </android.support.v7.widget.RecyclerView>
+       android:layout_height="match_parent">
+   </android.support.v4.view.ViewPager>
 </LinearLayout>
