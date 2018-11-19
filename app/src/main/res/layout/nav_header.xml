@@ -17,7 +17,7 @@
         android:id="@+id/username"
         android:layout_centerHorizontal="true"
         android:text="Boomerr Yi"
-        android:textSize="14sp"/>
+        android:textSize="20sp"/>
     <TextView
         android:textSize="14sp"
         android:id="@+id/note"

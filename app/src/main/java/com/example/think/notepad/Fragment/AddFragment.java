@@ -1,35 +1,34 @@
 package com.example.think.notepad.Fragment;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 
 import com.example.think.notepad.Activity.WorkActivity;
 import com.example.think.notepad.Base.BaseFragment;
 import com.example.think.notepad.Bean.NotePad;
-import com.example.think.notepad.Location;
+import com.example.think.notepad.service.NotepadService;
 import com.example.think.notepad.R;
 import com.example.think.notepad.SQLite.NotepadDatabaseHelper;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static android.content.Context.MODE_APPEND;
-import static com.example.think.notepad.Contracts.FILE_NAME;
+import static android.content.Context.ALARM_SERVICE;
 
 /*
 * Create By Boomerr Yi 2018/11/6
@@ -50,7 +49,9 @@ public class AddFragment extends BaseFragment {
         final EditText text = (EditText) view.findViewById(R.id.text);
         Button timePicker = (Button) view.findViewById(R.id.time_picker_btn) ;
         Button addBtn = (Button) view.findViewById(R.id.add_button);
+        final Calendar d = Calendar.getInstance();
         final TextView timePickerText = (TextView) view.findViewById(R.id.time_picker_text);
+        //头像点击事件
         headImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,42 +60,54 @@ public class AddFragment extends BaseFragment {
                 drawerLayout.openDrawer(Gravity.LEFT);
             }
         });
-
+        //时间选择
         timePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Calendar currentTime = Calendar.getInstance();
+                d.setTimeInMillis(System.currentTimeMillis());
                 new TimePickerDialog(getActivity(), 0, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-                        Calendar d = Calendar.getInstance();
-                        d.setTimeInMillis(System.currentTimeMillis());
+                        d.set(Calendar.HOUR,hourOfDay);
+                        d.set(Calendar.MINUTE,minute);
                         String date = "" + hourOfDay + " : " + minute;
                         timePickerText.setText(date);
+                        Log.e("Boomerr---test", String.valueOf(d.getTimeInMillis()));
                     }
-                },Calendar.HOUR,Calendar.MINUTE,true).show();
+                },currentTime.get(Calendar.HOUR_OF_DAY),currentTime.get(Calendar.MINUTE),true).show();
             }
         });
-
+        //添加事件确定按钮
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WorkActivity workActivity = (WorkActivity) getActivity();
-                SQLiteDatabase db=notepadDatabaseHelper.getWritableDatabase();
-                ContentValues values=new ContentValues();
-                values.put("title",title.getText().toString());
-                values.put("time",timePickerText.getText().toString());
-                values.put("text",text.getText().toString());
-                db.insert("Notepad",null,values);
-                values.clear();
-                NotePad notePad = new NotePad();
-                notePad.setOrderTime(timePickerText.getText().toString());
-                notePad.setText(text.getText().toString());
-                notePad.setTitle(title.getText().toString());
-                title.setText("");
-                timePickerText.setText("");
-                text.setText("");
+                SQLiteDatabase db = notepadDatabaseHelper.getWritableDatabase();
+                ContentValues values = new ContentValues();
+                if (title.getText().toString().equals("") || timePickerText.getText().toString().equals("") || text.getText().toString().equals("")) {
+                    Toast.makeText(getActivity(), "添加失败", Toast.LENGTH_SHORT).show();
+                } else {
+                    values.put("title", title.getText().toString());
+                    values.put("time", timePickerText.getText().toString());
+                    values.put("text", text.getText().toString());
+                    db.insert("Notepad", null, values);
+                    values.clear();
+                    NotePad notePad = new NotePad();
+                    notePad.setOrderTime(timePickerText.getText().toString());
+                    notePad.setText(text.getText().toString());
+                    notePad.setTitle(title.getText().toString());
+                    title.setText("");
+                    timePickerText.setText("");
+                    text.setText("");
 
-
+                    Intent intent = new Intent(getActivity(), NotepadService.class);
+                    PendingIntent sender = PendingIntent.getService(
+                            getActivity(), 0, intent, 0);
+                    AlarmManager am = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
+                    am.set(AlarmManager.RTC_WAKEUP, d.getTimeInMillis(), sender);
+                    Log.e("Boomerr---test", String.valueOf(d.getTimeInMillis()));
+                    Toast.makeText(getActivity(), "添加成功", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

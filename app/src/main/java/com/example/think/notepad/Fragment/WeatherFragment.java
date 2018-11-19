@@ -43,6 +43,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 * */
 public class WeatherFragment extends BaseFragment {
 
+    private TextView country ;
+    private TextView province ;
+    private TextView city ;
+    private TextView distract ;
+    private TextView cond_txt ;
+    private TextView tmp ;
+    private TextView wind_dir ;
+    private TextView cloud ;
+    private TextView _wind_sc;
+    private TextView brf ;
+    private TextView txt ;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -54,28 +65,50 @@ public class WeatherFragment extends BaseFragment {
 
     protected View initView() {
         View view = View.inflate(mContext,R.layout.fragment_weather,null);
-        TextView country = (TextView) view.findViewById(R.id.country);
-        TextView province = (TextView) view.findViewById(R.id.province);
-        TextView city = (TextView) view.findViewById(R.id.city);
-        TextView distract = (TextView) view.findViewById(R.id.distract);
-        TextView cond_txt = (TextView) view.findViewById(R.id.cond_txt);
-        TextView tmp = (TextView) view.findViewById(R.id.tmp);
-        TextView wind_dir = (TextView) view.findViewById(R.id.wind_dir);
-        TextView cloud = (TextView) view.findViewById(R.id.cloud);
-        TextView _wind_sc= (TextView) view.findViewById(R.id._wind_sc);
-        TextView brf = (TextView) view.findViewById(R.id.brf);
-        TextView txt = (TextView) view.findViewById(R.id.txt);
-        country.setText(Location.country);
-        province.setText(Location.province);
-        city.setText(Location.city);
-        distract.setText(Location.distract);
-        cond_txt.setText(Location.cond_txt);
-        tmp.setText(Location.tmp);
-        wind_dir.setText(Location.wind_dir);
-        cloud.setText(Location.cloud);
-        _wind_sc.setText(Location._wind_sc);
-        brf.setText(Location.brf);
-        txt.setText(Location.txt);
+         country = (TextView) view.findViewById(R.id.country);
+         province = (TextView) view.findViewById(R.id.province);
+         city = (TextView) view.findViewById(R.id.city);
+         distract = (TextView) view.findViewById(R.id.distract);
+         cond_txt = (TextView) view.findViewById(R.id.cond_txt);
+         tmp = (TextView) view.findViewById(R.id.tmp);
+         wind_dir = (TextView) view.findViewById(R.id.wind_dir);
+         cloud = (TextView) view.findViewById(R.id.cloud);
+         _wind_sc= (TextView) view.findViewById(R.id._wind_sc);
+         brf = (TextView) view.findViewById(R.id.brf);
+         txt = (TextView) view.findViewById(R.id.txt);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final String a = Location.country;
+                final String b = Location.province;
+                final String c = Location.city;
+                final String d = Location.distract;
+                final String e = Location.cond_txt;
+                final String f = "温度："+ Location.tmp;
+                final String g = "风向："+ Location.wind_dir;
+                final String h = "云量："+ Location.cloud;
+                final String i = "风力："+ Location._wind_sc;
+                final String j = Location.brf;
+                final String k = Location.txt;
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        country.setText(a);
+                        province.setText(b);
+                        city.setText(c);
+                        distract.setText(d);
+                        cond_txt.setText(e);
+                        tmp.setText(f);
+                        wind_dir.setText(g);
+                        cloud.setText(h);
+                        _wind_sc.setText(i);
+                        brf.setText(j);
+                        txt.setText(k);
+                    }
+                });
+            }
+        }).start();
+
         CircleImageView headImage = (CircleImageView) view.findViewById(R.id.head_image);
         headImage.setOnClickListener(new View.OnClickListener() {
             @Override

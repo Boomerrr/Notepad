@@ -1,13 +1,20 @@
 package com.example.think.notepad.Activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -29,6 +36,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 
 import static com.example.think.notepad.Contracts.FILE_NAME;
@@ -49,18 +57,25 @@ public class WelcomeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        requestPermission();
         mContext = getApplicationContext();
         mLocationClient = new LocationClient(mContext);//获取定位对象
         mLocationClient.registerLocationListener(new MyLocationListener());
         requestLocation();
         SDKInitializer.initialize(Objects.requireNonNull(getApplication()).getApplicationContext());
-        //读取所有已存信息文件 第一行为标题，第二行为时间 第三行为内容
-        new Handler().postDelayed(new Runnable() {
+        Location location = (Location) getApplication();
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                startMainActivity();
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        }, 1500);
+        }).start();
     }
 
 
@@ -135,50 +150,51 @@ public class WelcomeActivity extends Activity {
             };
             new NowLifestyleThread(distract,handlerLifestyle).run();
             new NowTmpThread(distract,handlerTmp).run();
+            startMainActivity();
         }
 
     }
 
 
-
-
-    public ArrayList<NotePad> read() {
-        ArrayList<NotePad> list = new ArrayList<>();
-        try {
-            FileInputStream fileInputStream = openFileInput(FILE_NAME);
-            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            String line;
-            while(true){
-                NotePad notePad = new NotePad();
-                if((line = bufferedReader.readLine())!= null) {
-                    notePad.setTitle(line);
-                    Log.e("Boomerr---test",line);
-                }else{
-                    break;
-                }
-                if((line = bufferedReader.readLine())!=null) {
-                    notePad.setOrderTime(line);
-                    Log.e("Boomerr---test",line);
-                }else{
-                    break;
-                }
-                if((line = bufferedReader.readLine())!=null) {
-                    notePad.setText(line);
-                    Log.e("Boomerr---test",line);
-                }else{
-                    break;
-                }
-                list.add(notePad);
-            }
-            return list;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void requestPermission() {
+        List<String> permissionList=new ArrayList<>();
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED);{
+            permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
         }
-        return null;
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.READ_PHONE_STATE)!=PackageManager.PERMISSION_GRANTED);{
+            permissionList.add(Manifest.permission.READ_PHONE_STATE);
+        }
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED);{
+            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if(!permissionList.isEmpty()){
+            String[] permissions=permissionList.toArray(new String[permissionList.size()]);
+            ActivityCompat.requestPermissions(WelcomeActivity.this,permissions,1);
+        }
+    }
 
+
+    public void onRequestPermissionResult(int requestCode,String[] permissions,int[] grantResults){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        }
+        switch(requestCode){
+            case 1:
+                if(grantResults.length > 0){
+                    for(int result : grantResults){
+                        if(result != PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(this, "必须同意权限才能使用此程序",Toast.LENGTH_SHORT).show();
+                            finish();
+                            return;
+                        }
+                    }
+                }else{
+                    Toast.makeText(this,"发生未知错误",Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                break;
+            default:
+        }
     }
 }
 

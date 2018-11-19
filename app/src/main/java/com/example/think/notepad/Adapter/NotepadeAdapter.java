@@ -11,6 +11,8 @@ import android.widget.Toast;
 import com.example.think.notepad.Bean.NotePad;
 import com.example.think.notepad.R;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +21,11 @@ public class NotepadeAdapter extends RecyclerView.Adapter<NotepadeAdapter.ViewHo
 
     static  class ViewHolder extends RecyclerView.ViewHolder{
         TextView title;
+        TextView time;
         TextView text;
         public ViewHolder(View view){
             super(view);
+            time = (TextView) view.findViewById(R.id.time);
             title = (TextView) view.findViewById(R.id.title);
             text = (TextView) view.findViewById(R.id.text);
         }
@@ -55,7 +59,8 @@ public class NotepadeAdapter extends RecyclerView.Adapter<NotepadeAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         NotePad notePad = notePadList.get(i);
-        viewHolder.title.setText(notePad.getTitle()+"  "+notePad.getOrderTime());
+        viewHolder.title.setText(notePad.getTitle());
+        viewHolder.time.setText(notePad.getOrderTime());
         viewHolder.text.setText(notePad.getText());
     }
 

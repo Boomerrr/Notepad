@@ -18,8 +18,7 @@
        android:id="@+id/nav_view"
        android:background="@android:color/holo_blue_light"
        android:layout_gravity="start"
-       app:menu="@menu/nav_menu"
-       app:headerLayout="@layout/nav_header" >
+       app:menu="@menu/nav_menu">
        <RelativeLayout
            android:layout_width="match_parent"
            android:layout_height="match_parent">

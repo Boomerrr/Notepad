@@ -8,7 +8,7 @@
     <string name="input_tel">请输入联系方式</string>
     <string name="back">返回</string>
     <string name="tel">联系电话</string>
-    <string name="remrember_pass">记住密码</string>
+    <string name="remrember_name">记住用户名</string>
     <string name="reset">重置</string>
 
     <string name="test">测试</string>

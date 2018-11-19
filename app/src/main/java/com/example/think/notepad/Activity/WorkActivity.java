@@ -1,7 +1,9 @@
 package com.example.think.notepad.Activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -13,10 +15,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.think.notepad.Base.BaseFragment;
@@ -58,46 +62,10 @@ public class WorkActivity extends AppCompatActivity implements IView{
         ActivityCompat.requestPermissions(WorkActivity.this, new String[]{
                 Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS }, 1);
         initFragment();
-        requestPermission();
     }
 
-    private void requestPermission() {
-        List<String> permissionList=new ArrayList<>();
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED);{
-            permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
-        }
-        if(ContextCompat.checkSelfPermission(this,Manifest.permission.READ_PHONE_STATE)!=PackageManager.PERMISSION_GRANTED);{
-            permissionList.add(Manifest.permission.READ_PHONE_STATE);
-        }
-        if(ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED);{
-            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
-        if(!permissionList.isEmpty()){
-            String[] permissions=permissionList.toArray(new String[permissionList.size()]);
-            ActivityCompat.requestPermissions(WorkActivity.this,permissions,1);
-        }
-    }
 
-    public void onRequestPermissionResult(int requestCode,String[] permissions,int[] grantResults){
-        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
-        switch(requestCode){
-            case 1:
-                if(grantResults.length > 0){
-                    for(int result : grantResults){
-                        if(result != PackageManager.PERMISSION_GRANTED) {
-                            Toast.makeText(this, "必须同意权限才能使用此程序",Toast.LENGTH_SHORT).show();
-                            finish();
-                            return;
-                        }
-                    }
-                }else{
-                    Toast.makeText(this,"发生未知错误",Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-                break;
-            default:
-        }
-    }
+
 
     private void initFragment() {
             mBaseFragment=new ArrayList<>();
@@ -106,7 +74,12 @@ public class WorkActivity extends AppCompatActivity implements IView{
             mBaseFragment.add(new WeatherFragment());
             mBaseFragment.add(new MeaageFragment());
             mBaseFragment.add( addFragment);
-
+            Intent intent = getIntent();//获取传来的intent对象
+            String data = intent.getStringExtra("userName");//获取键值对的键名
+            Log.e("Boomerr---test",data);
+            View header = navigationView.inflateHeaderView(R.layout.nav_header);
+            TextView tv = (TextView) header.findViewById(R.id.username);
+            tv.setText(data);
             final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             position = 0;
             BaseFragment initFragment=getFragment();

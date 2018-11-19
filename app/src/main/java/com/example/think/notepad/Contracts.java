@@ -8,4 +8,6 @@ public class Contracts {
 
     public static final String CREATER = "Boomerr---test";
     public static final String FILE_NAME = "NOTEPAD_TEXT.txt";
+
+    public static final String AUDIO_BAIDU = "https://tsn.baidu.com/text2audio?";
 }

@@ -23,7 +23,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         public ViewHolder(View view){
             super(view);
             time = (TextView) view.findViewById(R.id.time);
-            user = (TextView) view.findViewById(R.id.user);
+            user = (TextView) view.findViewById(R.id.username);
             text = (TextView) view.findViewById(R.id.text);
         }
     }

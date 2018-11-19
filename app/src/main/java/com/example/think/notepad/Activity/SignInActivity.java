@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.think.notepad.R;
 import com.example.think.notepad.SQLite.UserDatabaseHelper;
@@ -78,15 +79,22 @@ public class SignInActivity extends Activity implements View.OnClickListener {
         ContentValues values = new ContentValues();
         String userName = username.getText().toString();
         String passWord = password.getText().toString();
+        String passWord2 = password_again.getText().toString();
         String tel = telephone.getText().toString();
         Log.e(TAG,userName);
         Log.e(TAG,passWord);
         Log.e(TAG,tel);
-        values.put("username",userName);
-        values.put("password",passWord);
-        values.put("telephone",tel);
-        db.insert("User",null,values);
-        values.clear();
+       if(passWord.equals(passWord2)){
+           values.put("username",userName);
+           values.put("password",passWord);
+           values.put("telephone",tel);
+           db.insert("User",null,values);
+           values.clear();
+       }else{
+           Toast.makeText(this,"两次输入密码不一致",Toast.LENGTH_SHORT).show();
+           password.getText().clear();
+           password_again.getText().clear();
+       }
 
     }
 }
