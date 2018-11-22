@@ -16,7 +16,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/username"
         android:layout_centerHorizontal="true"
-        android:text="Boomerr Yi"
         android:textSize="20sp"/>
     <TextView
         android:textSize="14sp"

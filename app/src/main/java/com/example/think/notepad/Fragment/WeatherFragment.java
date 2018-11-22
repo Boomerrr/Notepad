@@ -127,6 +127,10 @@ public class WeatherFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
 }
 
 

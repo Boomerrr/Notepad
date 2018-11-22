@@ -3,6 +3,7 @@ package com.example.think.notepad.Activity;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -84,17 +85,20 @@ public class SignInActivity extends Activity implements View.OnClickListener {
         Log.e(TAG,userName);
         Log.e(TAG,passWord);
         Log.e(TAG,tel);
-       if(passWord.equals(passWord2)){
+       if(passWord.equals(passWord2) && !passWord.equals("") && !userName.equals("")){
            values.put("username",userName);
            values.put("password",passWord);
            values.put("telephone",tel);
            db.insert("User",null,values);
            values.clear();
+           startActivity(new Intent(SignInActivity.this,LogInActivity.class));
        }else{
-           Toast.makeText(this,"两次输入密码不一致",Toast.LENGTH_SHORT).show();
+           Toast.makeText(this,"输入错误",Toast.LENGTH_SHORT).show();
            password.getText().clear();
            password_again.getText().clear();
        }
 
     }
+
+
 }

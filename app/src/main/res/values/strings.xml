@@ -31,4 +31,6 @@
 
     <string name="send">发送</string>
     <string name="cancel">取消</string>
+    <string name="notice" >友情提示：本app每台客户端仅可注册一次 请妥善保管好您的密码账号</string>
+    <string name="notice_login" >如未注册请点击注册，已注册的客户端将无法注册</string>
 </resources>

@@ -5,13 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".Activity.SignInActivity">
 
-  <Toolbar
-      android:background="@android:color/holo_blue_light"
-      android:layout_margin="10dp"
-      android:id="@+id/toolbar"
-      android:layout_width="match_parent"
-      android:layout_height="?attr/actionBarSize">
+
       <TextView
+          android:background="@android:color/holo_blue_light"
+          android:id="@+id/text"
           android:textStyle="bold"
           android:textSize="30sp"
           android:textColor="@android:color/white"
@@ -19,11 +16,10 @@
           android:layout_height="wrap_content"
           android:text="微记事"
           android:gravity="center"/>
-  </Toolbar>
 
     <android.support.design.widget.TextInputLayout
         android:theme="@style/MyEditText"
-        android:layout_above="@id/txinput_password"
+        android:layout_below="@id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txinput_username">
@@ -39,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txinput_password"
-        android:layout_above="@id/txinput_password_2">
+        android:layout_below="@id/txinput_username">
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txinput_password_2"
-        android:layout_above="@id/txinput_tel">
+        android:layout_below="@id/txinput_password">
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,7 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txinput_tel"
-        android:layout_above="@id/linearlayout">
+        android:layout_below="@id/txinput_password_2">
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,7 +73,7 @@
 
     <LinearLayout
         android:id="@+id/linearlayout"
-        android:layout_centerInParent="true"
+        android:layout_below="@id/txinput_tel"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -100,4 +96,13 @@
             android:text="@string/reset"
             android:id="@+id/reset_btn"/>
     </LinearLayout>
+    <TextView
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/linearlayout"
+        android:textSize="15sp"
+        android:textColor="#bfbfbf"
+        android:text="@string/notice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

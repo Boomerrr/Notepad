@@ -52,12 +52,18 @@ public class WorkActivity extends AppCompatActivity implements IView{
     private ImageView exit;
     public MainFragment mainFragment;
     public AddFragment addFragment;
+    public InfoFragment infoFragment;
+    public WeatherFragment weatherFragment;
+    public MeaageFragment meaageFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work);
         mainFragment = new MainFragment();
         addFragment = new AddFragment();
+        infoFragment = new InfoFragment();
+        weatherFragment = new WeatherFragment();
+        meaageFragment = new MeaageFragment();
         init();
         ActivityCompat.requestPermissions(WorkActivity.this, new String[]{
                 Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS }, 1);
@@ -70,9 +76,9 @@ public class WorkActivity extends AppCompatActivity implements IView{
     private void initFragment() {
             mBaseFragment=new ArrayList<>();
             mBaseFragment.add(mainFragment);
-            mBaseFragment.add(new InfoFragment());
-            mBaseFragment.add(new WeatherFragment());
-            mBaseFragment.add(new MeaageFragment());
+            mBaseFragment.add(infoFragment);
+            mBaseFragment.add(weatherFragment);
+            mBaseFragment.add(meaageFragment);
             mBaseFragment.add( addFragment);
             Intent intent = getIntent();//获取传来的intent对象
             String data = intent.getStringExtra("userName");//获取键值对的键名
@@ -126,9 +132,9 @@ public class WorkActivity extends AppCompatActivity implements IView{
     }
 
     private void switchFragment(Fragment from,Fragment to) {
+        FragmentTransaction ft=getSupportFragmentManager().beginTransaction();
         if(from!=to){
             mContent=to;
-            FragmentTransaction ft=getSupportFragmentManager().beginTransaction();
             if(!to.isAdded()){
                 if(from!=null){
                     ft.hide(from);

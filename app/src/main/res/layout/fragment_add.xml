@@ -62,11 +62,15 @@
             android:hint="@string/remindTime"
             android:id="@+id/time_picker_text"/>
         <Button
+            android:layout_marginBottom="15dp"
+            android:background="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/orderTime"
             android:id="@+id/time_picker_btn"/>
         <Button
+            android:textColor="@android:color/white"
+            android:background="@android:color/holo_blue_light"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/add"
