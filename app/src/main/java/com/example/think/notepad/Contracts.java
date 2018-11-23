@@ -9,5 +9,6 @@ public class Contracts {
     public static final String CREATER = "Boomerr---test";
     public static final String FILE_NAME = "NOTEPAD_TEXT.txt";
 
-    public static final String AUDIO_BAIDU = "https://tsn.baidu.com/text2audio?";
+    public static final String AUDIO_BAIDU_HEAD = "https://tsn.baidu.com/text2audio?tex=";
+    public static final String AUDIO_BAIDU_LAST = "&lan=zh&cuid=Boomerryibochen&ctp=1&tok=24.28b824c2df182e95a6c8382e07c35dc0.2592000.1544863298.282335-14822582&per=4";
 }

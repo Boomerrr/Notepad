@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,84 +39,82 @@ import static com.example.think.notepad.Contracts.FILE_NAME;
 * Create by Boomerr Yi 2018/11/10
 *
 * */
-public class MainFragment extends BaseFragment{
+public class MainFragment extends BaseFragment {
 
-    private float mFirstY;
-    private float mCurrentY;
-    private int direction;
-    private ObjectAnimator mAnimator;
-    private boolean mShow = true;
-    private Toolbar mToolbar;
-    private int mTouchSlop;
     private NotepadDatabaseHelper notepadDatabaseHelper;
-
-
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private  NotepadeAdapter notepadeAdapter;
+    private ArrayList<NotePad> notePadList;
     @Override
     protected View initView() {
-        View view=View.inflate(mContext, R.layout.fragment_main,null);
-        init();
+        View view = View.inflate(mContext, R.layout.fragment_main, null);
+        notePadList = new ArrayList<>();
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycelr_main);
         RelativeLayout relativeLayout = (RelativeLayout) view.findViewById(R.id.relativelayout);
+        swipeRefreshLayoutFunction(view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setReverseLayout(true);
         recyclerView.setLayoutManager(layoutManager);
-        ArrayList<NotePad> notePadList = init();
-        final NotepadeAdapter notepadeAdapter = new NotepadeAdapter(notePadList);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        notepadeAdapter = new NotepadeAdapter(notePadList);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(notepadeAdapter);
-        mTouchSlop = ViewConfiguration.get(getActivity()).getScaledTouchSlop();
+        init();
         CircleImageView headImage = (CircleImageView) view.findViewById(R.id.head_image);
         headImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WorkActivity workActivity = (WorkActivity)getActivity();
-                DrawerLayout drawerLayout =  workActivity.findViewById(R.id.drawablelayout);
+                WorkActivity workActivity = (WorkActivity) getActivity();
+                DrawerLayout drawerLayout = workActivity.findViewById(R.id.drawablelayout);
                 drawerLayout.openDrawer(Gravity.LEFT);
             }
         });
         return view;
     }
 
-    private ArrayList<NotePad> init() {
-        ArrayList<NotePad> notePadList = new ArrayList<>();
-        notepadDatabaseHelper = new NotepadDatabaseHelper(getActivity(),"notepad.db",null,1);
-        SQLiteDatabase db=notepadDatabaseHelper.getWritableDatabase();
-        Cursor cursor=db.query("Notepad",null,null,null,null,null,null);
-        if(cursor.moveToNext()){
-            do{
+    private void swipeRefreshLayoutFunction(View view) {
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                init();
+                                notepadeAdapter.notifyDataSetChanged();
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+                        });
+                    }
+                }).start();
+            }
+        });
+    }
+
+    private void init() {
+        notePadList.clear();
+        notepadDatabaseHelper = new NotepadDatabaseHelper(getActivity(), "notepad.db", null, 1);
+        SQLiteDatabase db = notepadDatabaseHelper.getWritableDatabase();
+        Cursor cursor = db.query("Notepad", null, null, null, null, null, null);
+        if (cursor.moveToNext()) {
+            do {
                 NotePad notePad = new NotePad();
-                String title=cursor.getString(cursor.getColumnIndex("title"));
-                String time=cursor.getString(cursor.getColumnIndex("time"));
-                String text=cursor.getString(cursor.getColumnIndex("text"));
+                String title = cursor.getString(cursor.getColumnIndex("title"));
+                String time = cursor.getString(cursor.getColumnIndex("time"));
+                String text = cursor.getString(cursor.getColumnIndex("text"));
                 notePad.setTitle(title);
                 notePad.setOrderTime(time);
                 notePad.setText(text);
-                Log.d(CREATER,"title"+title);
-                Log.d(CREATER,"time"+time);
-                Log.d(CREATER,"text"+text);
+                Log.d(CREATER, "title" + title);
+                Log.d(CREATER, "time" + time);
+                Log.d(CREATER, "text" + text);
                 notePadList.add(notePad);
-            }while(cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         cursor.close();
-        return notePadList;
     }
-
-
-
-    private void toolbarAnim(int flag) {
-        if (mAnimator != null && mAnimator.isRunning()) {
-            mAnimator.cancel();
-        }
-        if (flag == 0) {
-            mAnimator = ObjectAnimator.ofFloat(mToolbar,
-                    "translationY", mToolbar.getTranslationY(), 0);
-        } else {
-            mAnimator = ObjectAnimator.ofFloat(mToolbar,
-                    "translationY", mToolbar.getTranslationY(),
-                    -mToolbar.getHeight());
-        }
-        mAnimator.start();
-    }
-
-
 
 }

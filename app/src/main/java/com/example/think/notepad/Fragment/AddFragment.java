@@ -18,9 +18,9 @@ import android.widget.Toast;
 
 
 import com.example.think.notepad.Activity.WorkActivity;
+import com.example.think.notepad.AlarmReceiver;
 import com.example.think.notepad.Base.BaseFragment;
 import com.example.think.notepad.Bean.NotePad;
-import com.example.think.notepad.service.NotepadService;
 import com.example.think.notepad.R;
 import com.example.think.notepad.SQLite.NotepadDatabaseHelper;
 
@@ -34,6 +34,8 @@ import static android.content.Context.ALARM_SERVICE;
 * Create By Boomerr Yi 2018/11/6
 * */
 public class AddFragment extends BaseFragment {
+    private Calendar d  = Calendar.getInstance();
+    private Calendar currentTime  = Calendar.getInstance();
     private NotepadDatabaseHelper notepadDatabaseHelper;
     @Override
     protected View initView() {
@@ -49,7 +51,6 @@ public class AddFragment extends BaseFragment {
         final EditText text = (EditText) view.findViewById(R.id.text);
         Button timePicker = (Button) view.findViewById(R.id.time_picker_btn) ;
         Button addBtn = (Button) view.findViewById(R.id.add_button);
-        final Calendar d = Calendar.getInstance();
         final TextView timePickerText = (TextView) view.findViewById(R.id.time_picker_text);
         //头像点击事件
         headImg.setOnClickListener(new View.OnClickListener() {
@@ -64,16 +65,22 @@ public class AddFragment extends BaseFragment {
         timePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Calendar currentTime = Calendar.getInstance();
-                d.setTimeInMillis(System.currentTimeMillis());
+                //d.setTimeInMillis(System.currentTimeMillis());
                 new TimePickerDialog(getActivity(), 0, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-                        d.set(Calendar.HOUR,hourOfDay);
+                        d.setTimeInMillis(System.currentTimeMillis());
+
+                        d.set(Calendar.HOUR_OF_DAY,hourOfDay);
                         d.set(Calendar.MINUTE,minute);
-                        String date = "" + hourOfDay + " : " + minute;
+                        d.set(Calendar.SECOND,0);
+                        d.set(Calendar.MILLISECOND,0);
+                        String date =hourOfDay + " : " + minute;
                         timePickerText.setText(date);
-                        Log.e("Boomerr---test", String.valueOf(d.getTimeInMillis()));
+                        Log.e("Boomerr---test1", String.valueOf(d.getTimeInMillis()));
+                        Log.e("Boomerr---test2", String.valueOf(currentTime.getTimeInMillis()));
+                        Log.e("Boomerr---test1", String.valueOf(hourOfDay));
+                        Log.e("Boomerr---test1", String.valueOf(minute));
                     }
                 },currentTime.get(Calendar.HOUR_OF_DAY),currentTime.get(Calendar.MINUTE),true).show();
             }
@@ -96,17 +103,21 @@ public class AddFragment extends BaseFragment {
                     notePad.setOrderTime(timePickerText.getText().toString());
                     notePad.setText(text.getText().toString());
                     notePad.setTitle(title.getText().toString());
-                    title.setText("");
-                    timePickerText.setText("");
-                    text.setText("");
 
-                    Intent intent = new Intent(getActivity(), NotepadService.class);
-                    PendingIntent sender = PendingIntent.getService(
-                            getActivity(), 0, intent, 0);
+                    Intent intent = new Intent(getActivity(), AlarmReceiver.class);
+                    intent.putExtra("NotePad",text.getText().toString());
+                    intent.setAction("com.example.think.action.setalarm");
+                    PendingIntent sender = PendingIntent.getBroadcast(
+                            getActivity(), 0, intent,
+                            PendingIntent.FLAG_UPDATE_CURRENT);//指定PendingIntent
                     AlarmManager am = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
                     am.set(AlarmManager.RTC_WAKEUP, d.getTimeInMillis(), sender);
                     Log.e("Boomerr---test", String.valueOf(d.getTimeInMillis()));
-                    Toast.makeText(getActivity(), "添加成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "闹钟添加成功", Toast.LENGTH_SHORT).show();
+
+                    title.setText("");
+                    timePickerText.setText("");
+                    text.setText("");
                 }
             }
         });

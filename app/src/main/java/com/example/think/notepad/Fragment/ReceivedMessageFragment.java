@@ -25,6 +25,7 @@ import com.example.think.notepad.Bean.message;
 import com.example.think.notepad.R;
 
 
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -38,7 +39,7 @@ import java.util.List;
 
 public class ReceivedMessageFragment extends BaseFragment {
     final String SMS_URI_INBOX = "content://sms/inbox";
-    final String FILE_NAME = "telephone.txt";
+    private final String FILE_NAME = "telephone.txt";
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private MessageAdapter messageAdapter;
@@ -57,7 +58,7 @@ public class ReceivedMessageFragment extends BaseFragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
         swiperefresh(view);
-       floatButton(view);
+        floatButton(view);
         return view;
     }
 
@@ -115,11 +116,11 @@ public class ReceivedMessageFragment extends BaseFragment {
                     telephoneFilter =  FileRead();
                     Log.e("Boomerr---test--size", String.valueOf(telephoneFilter.size()));
                    for(int i = 0; i < telephoneFilter.size();i++){
-                       Log.e("Boomerr--test2",address+"  "+telephoneFilter.get(i));
-                       Log.e("Boomerr--test3", String.valueOf(address.length()));
-                       Log.e("Boomerr--test4", String.valueOf(telephoneFilter.get(i).length()));
+                       //Log.e("Boomerr--test2",address+"  "+telephoneFilter.get(i));
+                       //Log.e("Boomerr--test3", String.valueOf(address.length()));
+                       //Log.e("Boomerr--test4", String.valueOf(telephoneFilter.get(i).length()));
                        if(telephoneFilter.get(i).equals(address)) {
-                           Log.e("Boomerr---test--tel",telephoneFilter.get(i));
+                           //Log.e("Boomerr---test--tel",telephoneFilter.get(i));
                            msg.setUser(address);
                            msg.setTime(date);
                            msg.setText(body);
@@ -149,12 +150,14 @@ public class ReceivedMessageFragment extends BaseFragment {
             FileInputStream fileInputStream = getActivity().openFileInput(FILE_NAME);
             byte[] buff = new byte[1024];
             int hasRead = 0;
-            StringBuilder sb = new StringBuilder("");
-            while ((hasRead = fileInputStream.read(buff))>0){
-                String string = new String(buff,0,hasRead-1);
-                Log.e("Boomerr--test",string);
-                arrayList.add(string);
+            DataInputStream dataIO = new DataInputStream(fileInputStream);
+            String sb = "";
+            int i = 0;
+            while ((sb = dataIO.readLine()) != null){
+                //Log.e("Boomerr--test",sb + i++);
+                arrayList.add(sb);
             }
+            fileInputStream.close();
             return arrayList;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -221,6 +224,7 @@ public class ReceivedMessageFragment extends BaseFragment {
             FileOutputStream fileOutputStream = getActivity().openFileOutput(FILE_NAME,Context.MODE_APPEND);
             PrintStream ps = new PrintStream(fileOutputStream);
             ps.println(content);
+            ps.close();
             Log.e("Boomerr---test","write successfully");
         } catch (FileNotFoundException e) {
             e.printStackTrace();

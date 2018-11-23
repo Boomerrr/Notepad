@@ -19,7 +19,8 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:name=".Location"
         android:allowBackup="true"
@@ -32,23 +33,29 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="UGHpEjkZ0YmfkWzpvG9kY6t93gqj71hW" />
 
-        <activity android:name=".Activity.WelcomeActivity" >
+        <activity android:name=".Activity.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".Activity.LogInActivity" />
         <activity android:name=".Activity.SignInActivity" />
-        <activity android:name=".Activity.WorkActivity"/>
+        <activity android:name=".Activity.WorkActivity" />
 
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
 
+        <activity android:name=".Activity.AlarmActivity"/>
+        <receiver android:name=".AlarmReceiver" android:enabled="true"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="com.example.think.action.setalarm" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
