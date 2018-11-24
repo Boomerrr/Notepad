@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.TableLayout;
 
 import com.example.think.notepad.Activity.WorkActivity;
 import com.example.think.notepad.Adapter.FragmentAdapter;

@@ -30,6 +30,7 @@
         </LinearLayout>
     </LinearLayout>
     <TextView
+        android:layout_margin="10dp"
         android:gravity="top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

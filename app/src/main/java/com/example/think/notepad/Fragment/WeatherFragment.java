@@ -85,10 +85,10 @@ public class WeatherFragment extends BaseFragment implements IView {
                 final String c = Location.city;
                 final String d = Location.distract;
                 final String e = Location.cond_txt;
-                final String f = "温度："+ Location.tmp;
-                final String g = "风向："+ Location.wind_dir;
-                final String h = "云量："+ Location.cloud;
-                final String i = "风力："+ Location._wind_sc;
+                final String f =  Location.tmp+"℃";
+                final String g = "风向       "+ Location.wind_dir;
+                final String h = "云量       "+ Location.cloud;
+                final String i = "风力       "+ Location._wind_sc;
                 final String j = Location.brf;
                 final String k = Location.txt;
                 getActivity().runOnUiThread(new Runnable() {

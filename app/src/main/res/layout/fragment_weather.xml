@@ -39,8 +39,14 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <include layout="@layout/locationlayout"/>
-            <include layout="@layout/nowtmplayout"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <include layout="@layout/locationlayout"/>
+                <include layout="@layout/nowtmplayout"/>
+            </LinearLayout>
+            <include layout="@layout/nowcloudlayout"/>
             <include layout="@layout/nowlifestylelayout"/>
         </LinearLayout>
     </ScrollView>

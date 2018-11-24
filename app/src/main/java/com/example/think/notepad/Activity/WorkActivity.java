@@ -65,8 +65,6 @@ public class WorkActivity extends AppCompatActivity implements IView{
         weatherFragment = new WeatherFragment();
         meaageFragment = new MeaageFragment();
         init();
-        ActivityCompat.requestPermissions(WorkActivity.this, new String[]{
-                Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS }, 1);
         initFragment();
     }
 

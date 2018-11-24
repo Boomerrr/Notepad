@@ -38,5 +38,7 @@
     <string name="inputTelephene">请输入联系人</string>
     <string name="inputTelephoneNum">请输入联系人电话号码</string>
     <string name="AddTelephone">添加联系人</string>
+    <string name="send_personInfo">发送个人名片</string>
+    <string name="thing">事件</string>
 
 </resources>

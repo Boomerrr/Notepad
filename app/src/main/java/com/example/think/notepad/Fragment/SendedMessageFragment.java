@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 
@@ -39,6 +41,9 @@ public class SendedMessageFragment extends BaseFragment implements IView {
     private RecyclerView recyclerView;
     private List<message> messageList = new ArrayList<>();
     SimpleDateFormat simpleDateFormat;
+    private  EditText telephone;
+    private  EditText text;
+    private CheckBox checkBox;
     @Override
     protected View initView() {
         View view=View.inflate(mContext, R.layout.fragment_sendedmessage,null);
@@ -131,7 +136,7 @@ public class SendedMessageFragment extends BaseFragment implements IView {
         //设置要显示的view
         View view = View.inflate(context, resource, null);
         //此处可按需求为各控件设置属性
-
+        checkBox = (CheckBox) view.findViewById(R.id.checkbox);
         final PopupWindow popupWindow = new PopupWindow(view);
         //设置弹出窗口大小
         popupWindow.setWidth(WindowManager.LayoutParams.FILL_PARENT);
@@ -140,11 +145,10 @@ public class SendedMessageFragment extends BaseFragment implements IView {
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        final EditText telephone = (EditText) view.findViewById(R.id.telephone);
-        final EditText text = (EditText) view.findViewById(R.id.text);
+        telephone = (EditText) view.findViewById(R.id.telephone);
+        text = (EditText) view.findViewById(R.id.text);
         Button cancel=(Button)view.findViewById(R.id.btn_cancel);
         Button ok=(Button)view.findViewById(R.id.btn_comfirm);
-        final EditText editText=(EditText)view.findViewById(R.id.text) ;
         View.OnClickListener listener = new View.OnClickListener(){
 
             @Override
@@ -154,9 +158,7 @@ public class SendedMessageFragment extends BaseFragment implements IView {
                         popupWindow.dismiss();
                         break;
                     case R.id.btn_comfirm:
-                        final SmsManager smsManager = SmsManager.getDefault();
-                        PendingIntent pi = PendingIntent.getActivity(getActivity(),0,new Intent(),0);
-                        smsManager.sendTextMessage(telephone.getText().toString(),null,text.getText().toString(),pi,null);
+                        SendMessageFunction();
                         popupWindow.dismiss();
                         break;
                     default:
@@ -169,5 +171,57 @@ public class SendedMessageFragment extends BaseFragment implements IView {
         //popupWindow.setAnimationStyle(R.style.AnimBottom);
         //设置显示位置,findViewById获取的是包含当前整个页面的view
         popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+    }
+
+    private void SendMessageFunction() {
+        String textText = new String();
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Info",Context.MODE_PRIVATE);
+        String telephoneText = telephone.getText().toString();
+        if(checkBox.isChecked()){
+            ArrayList<String> personInfo = new ArrayList<>();
+            String classcode =  sharedPreferences.getString("classcode",null);
+            String studentNum =  sharedPreferences.getString("studentNum",null);
+            String college =  sharedPreferences.getString("college",null);
+            String QQ = sharedPreferences.getString("QQ",null);
+            String telephone = sharedPreferences.getString("telephone",null);
+            String email = sharedPreferences.getString("email",null);
+            String weiChat = sharedPreferences.getString("weiChat",null);
+            String address = sharedPreferences.getString("address",null);
+            String thisText = text.getText().toString();
+            if(!classcode .equals("") ){
+                personInfo.add("姓名："+classcode);
+            }
+            if(!studentNum.equals("")){
+                personInfo.add("学号：" +studentNum);
+            }
+            if(!college.equals("")){
+                personInfo.add("学院：" +college);
+            }
+            if(!QQ.equals("")){
+                personInfo.add( "QQ：" +QQ);
+            }
+            if(!telephone.equals("")){
+                personInfo.add("电话：" + telephone);
+            }
+            if(!email.equals("")){
+                personInfo.add( "邮箱：" +email);
+            }
+            if(!weiChat.equals("")){
+                personInfo.add("微信：" + weiChat);
+            }
+            if(!address.equals("")){
+                personInfo.add( "地址：" +address);
+            }
+            textText = thisText;
+            for(int i = 0; i < personInfo.size(); i++){
+                textText = textText +"\n" + personInfo.get(i);
+            }
+        }else{
+            textText = text.getText().toString();
+        }
+        final SmsManager smsManager = SmsManager.getDefault();
+        PendingIntent pi = PendingIntent.getActivity(getActivity(),0,new Intent(),0);
+        smsManager.sendTextMessage(telephoneText,null,textText,pi,null);
+
     }
 }

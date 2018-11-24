@@ -115,7 +115,7 @@ public class ReceivedMessageFragment extends BaseFragment implements IView {
                     //Log.e("Boomerr---test",address+"   "+body+"  "+type);
                     telephoneFilter = new ArrayList<>();
                     telephoneFilter =  FileRead();
-                    Log.e("Boomerr---test--size", String.valueOf(telephoneFilter.size()));
+                    //Log.e("Boomerr---test--size", String.valueOf(telephoneFilter.size()));
                    for(int i = 0; i < telephoneFilter.size();i++){
                        //Log.e("Boomerr--test2",address+"  "+telephoneFilter.get(i));
                        //Log.e("Boomerr--test3", String.valueOf(address.length()));

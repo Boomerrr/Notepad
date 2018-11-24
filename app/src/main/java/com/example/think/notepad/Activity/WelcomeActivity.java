@@ -61,6 +61,8 @@ public class WelcomeActivity extends Activity implements IView {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestPermission();
+        ActivityCompat.requestPermissions(WelcomeActivity.this, new String[]{
+                Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS }, 1);
         mContext = getApplicationContext();
         mLocationClient = new LocationClient(mContext);//获取定位对象
         mLocationClient.registerLocationListener(new MyLocationListener());

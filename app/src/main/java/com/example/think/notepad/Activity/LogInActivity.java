@@ -54,7 +54,7 @@ public class LogInActivity extends Activity implements View.OnClickListener,IVie
     SharedPreferences.Editor editor;
 
     private String help = "  本App每个客户端仅支持一个绑定账号，如未绑定，请先注册，再行登录，在主页内容为记事本内容，" +
-            "个人信息板块为个人信息记录，天气板块为当前实时天气播报，短信版块为该App的通信板块，添加板块为记事本闹钟事件添加板块。\n   " +
+            "个人信息板块为个人信息记录,可在短信发送页面发送个人信息，天气板块为当前实时天气播报，短信版块为该App的通信板块,接受短信需要输入接受号码才可查看相应短信，添加板块为记事本闹钟事件添加板块。\n   " +
             "                                        祝您使用愉快";
 
     private UserDatabaseHelper userDatabaseHelper;

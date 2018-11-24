@@ -13,10 +13,10 @@
         android:layout_weight="1"
         android:id="@+id/work_main"/>
    <android.support.design.widget.NavigationView
+       android:background="@android:color/holo_blue_light"
        android:layout_height="match_parent"
        android:layout_width="match_parent"
        android:id="@+id/nav_view"
-       android:background="@android:color/holo_blue_light"
        android:layout_gravity="start"
        app:menu="@menu/nav_menu">
        <RelativeLayout
@@ -25,11 +25,10 @@
            <ImageView
                android:layout_marginHorizontal="15dp"
                android:id="@+id/exit"
-                android:layout_above="@id/exitText"
+               android:layout_above="@id/exitText"
                android:layout_width="25dp"
                android:layout_height="25dp"
-               android:src="@mipmap/exit"
-               android:background="@android:color/transparent"/>
+               android:src="@mipmap/exit" />
            <TextView
                android:layout_marginHorizontal="15dp"
                android:layout_marginBottom="20dp"
