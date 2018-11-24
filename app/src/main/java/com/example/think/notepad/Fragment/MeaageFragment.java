@@ -14,6 +14,7 @@ import com.example.think.notepad.Adapter.FragmentAdapter;
 import com.example.think.notepad.Adapter.MessageAdapter;
 import com.example.think.notepad.Base.BaseFragment;
 import com.example.think.notepad.Bean.message;
+import com.example.think.notepad.IView;
 import com.example.think.notepad.R;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MeaageFragment extends BaseFragment {
+public class MeaageFragment extends BaseFragment implements IView {
 
     private ViewPager viewPager;
     private TabLayout tabs;

@@ -1,6 +1,7 @@
 package com.example.think.notepad.Fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
@@ -11,6 +12,7 @@ import android.widget.ImageButton;
 
 import com.example.think.notepad.Activity.WorkActivity;
 import com.example.think.notepad.Base.BaseFragment;
+import com.example.think.notepad.IView;
 import com.example.think.notepad.R;
 
 import java.io.DataInputStream;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class InfoFragment extends BaseFragment implements View.OnClickListener{
+public class InfoFragment extends BaseFragment implements View.OnClickListener, IView {
     private ImageButton imageButton1;
     private ImageButton imageButton2;
     private ImageButton imageButton3;
@@ -43,24 +45,17 @@ public class InfoFragment extends BaseFragment implements View.OnClickListener{
     private EditText editText7;
     private EditText editText8;
 
-    private String classode = " ";
-    private String studentNum = " ";
-    private String college = " ";
-    private String QQ = " ";
-    private String telephone = " ";
-    private String email = " ";
-    private String weiChat = " ";
-    private String address = " ";
-    private final String FILE_NAME = "info.txt";
-    private File file = new File(FILE_NAME);
+   SharedPreferences sharedPreferences;
+   SharedPreferences.Editor editor;
 
     private Button save;
 
     @Override
     protected View initView() {
         View view=View.inflate(mContext, R.layout.fragment_info,null);
-        initFile();
         CircleImageView headIamge = (CircleImageView) view.findViewById(R.id.head_image);
+        sharedPreferences = getActivity().getSharedPreferences("Info",Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         headIamge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,43 +68,25 @@ public class InfoFragment extends BaseFragment implements View.OnClickListener{
         new Thread(new Runnable() {
             @Override
             public void run() {
-                readFileFunction();
+                initViewFunction();
             }
         }).start();
         return view;
     }
 
-    private void readFileFunction() {
-        ArrayList<String> arrayList = new ArrayList<>();
-        try {
-            FileInputStream fileInputStream = getActivity().openFileInput(FILE_NAME);
-            byte[] buff = new byte[1024];
-            int hasRead = 0;
-            DataInputStream dataIO = new DataInputStream(fileInputStream);
-            String sb = "";
-            int i = 0;
-            while ((sb = dataIO.readLine()) != null){
-                Log.e("Boomerr--test",sb + " "+ i++);
-                arrayList.add(sb);
-            }
-            fileInputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        classode = arrayList.get(0);
-        studentNum = arrayList.get(1);
-        college = arrayList.get(2);
-        QQ = arrayList.get(3);
-        telephone = arrayList.get(4);
-        email = arrayList.get(5);
-        weiChat = arrayList.get(6);
-        address = arrayList.get(7);
+    private void initViewFunction() {
+        final String classcode = sharedPreferences.getString("classcode",null);
+        final String studentNum = sharedPreferences.getString("studentNum",null);
+        final String college = sharedPreferences.getString("college",null);
+        final String QQ = sharedPreferences.getString("QQ",null);
+        final String telephone = sharedPreferences.getString("telephone",null);
+        final String email = sharedPreferences.getString("email",null);
+        final String weiChat = sharedPreferences.getString("weiChat",null);
+        final String address = sharedPreferences.getString("address",null);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                editText1.setText(classode);
+                editText1.setText(classcode);
                 editText2.setText(studentNum);
                 editText3.setText(college);
                 editText4.setText(QQ);
@@ -121,39 +98,6 @@ public class InfoFragment extends BaseFragment implements View.OnClickListener{
         });
     }
 
-    private void initFile() {
-        if(file.exists()){
-            Log.e("Boomerr---test","file create");
-            file.mkdir();
-            try {
-                FileOutputStream fileOutputStream = getActivity().openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-                PrintStream ps = new PrintStream(fileOutputStream);
-                ps.println(classode);
-                Log.e("Boomerr---test1",classode);
-                ps.println(studentNum);
-                Log.e("Boomerr---test2",studentNum);
-                ps.println(college);
-                Log.e("Boomerr---test3",college);
-                ps.println(QQ);
-                Log.e("Boomerr---test4",QQ);
-                ps.println(telephone);
-                Log.e("Boomerr---test5",telephone);
-                ps.println(email);
-                Log.e("Boomerr---test6",email);
-                ps.println(weiChat);
-                Log.e("Boomerr---test7",weiChat);
-                ps.println(address);
-                Log.e("Boomerr---test8",address);
-                ps.close();
-                Log.e("Boomerr---test","write successfully");
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
-        }else{
-            Log.e("Boomerr---test","file exis");
-        }
-    }
 
     private void ViewFunction(View view) {
         imageButton1 = (ImageButton) view.findViewById(R.id.button1);
@@ -226,38 +170,22 @@ public class InfoFragment extends BaseFragment implements View.OnClickListener{
         editText6.setEnabled(false);
         editText7.setEnabled(false);
         editText8.setEnabled(false);
-        classode = editText1.getText().toString();
-        studentNum = editText2.getText().toString();
-        college = editText3.getText().toString();
-        QQ = editText4.getText().toString();
-        telephone = editText5.getText().toString();
-        email = editText6.getText().toString();
-        weiChat = editText7.getText().toString();
-        address = editText8.getText().toString();
-            try {
-                FileOutputStream fileOutputStream = getActivity().openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-                PrintStream ps = new PrintStream(fileOutputStream);
-                ps.println(classode);
-                ps.println(studentNum);
-                ps.println(college);
-                ps.println(QQ);
-                ps.println(telephone);
-                ps.println(email);
-                ps.println(weiChat);
-                ps.println(address);
-                Log.e("Boomerr---test1",classode);
-                Log.e("Boomerr---test2",studentNum);
-                Log.e("Boomerr---test3",college);
-                Log.e("Boomerr---test4",QQ);
-                Log.e("Boomerr---test5",telephone);
-                Log.e("Boomerr---test6",email);
-                Log.e("Boomerr---test7",weiChat);
-                Log.e("Boomerr---test8",address);
-                ps.close();
-                Log.e("Boomerr---test","write successfully");
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
+        String classcode = editText1.getText().toString();
+        String studentNum = editText2.getText().toString();
+        String college = editText3.getText().toString();
+        String QQ = editText4.getText().toString();
+        String telephone = editText5.getText().toString();
+        String email = editText6.getText().toString();
+        String weiChat = editText7.getText().toString();
+        String address = editText8.getText().toString();
+        editor.putString("classcode",classcode);
+        editor.putString("studentNum",studentNum);
+        editor.putString("college",college);
+        editor.putString("QQ",QQ);
+        editor.putString("telephone",telephone);
+        editor.putString("email",email);
+        editor.putString("weiChat",weiChat);
+        editor.putString("address",address);
+        editor.apply();
     }
 }

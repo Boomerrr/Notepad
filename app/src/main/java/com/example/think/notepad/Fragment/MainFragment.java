@@ -20,6 +20,7 @@ import com.example.think.notepad.Adapter.NotepadeAdapter;
 import com.example.think.notepad.Base.BaseFragment;
 import com.example.think.notepad.Bean.NotePad;
 
+import com.example.think.notepad.IView;
 import com.example.think.notepad.R;
 import com.example.think.notepad.SQLite.NotepadDatabaseHelper;
 
@@ -28,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -39,7 +41,7 @@ import static com.example.think.notepad.Contracts.FILE_NAME;
 * Create by Boomerr Yi 2018/11/10
 *
 * */
-public class MainFragment extends BaseFragment {
+public class MainFragment extends BaseFragment implements IView {
 
     private NotepadDatabaseHelper notepadDatabaseHelper;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -50,15 +52,13 @@ public class MainFragment extends BaseFragment {
         View view = View.inflate(mContext, R.layout.fragment_main, null);
         notePadList = new ArrayList<>();
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycelr_main);
-        RelativeLayout relativeLayout = (RelativeLayout) view.findViewById(R.id.relativelayout);
-        swipeRefreshLayoutFunction(view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setReverseLayout(true);
         recyclerView.setLayoutManager(layoutManager);
+        init();
         notepadeAdapter = new NotepadeAdapter(notePadList);
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(notepadeAdapter);
-        init();
+        swipeRefreshLayoutFunction(view);
         CircleImageView headImage = (CircleImageView) view.findViewById(R.id.head_image);
         headImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +114,7 @@ public class MainFragment extends BaseFragment {
                 notePadList.add(notePad);
             } while (cursor.moveToNext());
         }
+        Collections.reverse(notePadList);
         cursor.close();
     }
 

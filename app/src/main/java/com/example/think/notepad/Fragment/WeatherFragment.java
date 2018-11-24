@@ -26,6 +26,7 @@ import com.example.think.notepad.Base.BaseFragment;
 import com.example.think.notepad.Bean.LocationBean;
 import com.example.think.notepad.Bean.NowLifestyle;
 import com.example.think.notepad.Bean.NowTmp;
+import com.example.think.notepad.IView;
 import com.example.think.notepad.Location;
 import com.example.think.notepad.R;
 import com.example.think.notepad.Thread.NowLifestyleThread;
@@ -41,7 +42,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 * Create by Boomerr Yi   2018/11/5
 *
 * */
-public class WeatherFragment extends BaseFragment {
+public class WeatherFragment extends BaseFragment implements IView {
 
     private TextView country ;
     private TextView province ;

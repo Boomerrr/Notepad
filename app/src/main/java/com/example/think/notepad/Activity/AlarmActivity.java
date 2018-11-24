@@ -11,13 +11,14 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.think.notepad.Contracts;
+import com.example.think.notepad.IView;
 import com.example.think.notepad.R;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class AlarmActivity extends AppCompatActivity {
+public class AlarmActivity extends AppCompatActivity implements IView{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -171,14 +171,4 @@ public class WorkActivity extends AppCompatActivity implements IView{
         });
     }
 
-    
-    @Override
-    public void showProgress() {
-        progressDialog.show();
-    }
-
-    @Override
-    public void hideProgress() {
-        progressDialog.hide();
-    }
 }

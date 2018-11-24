@@ -23,6 +23,7 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
 import com.example.think.notepad.Bean.LocationBean;
 import com.example.think.notepad.Bean.NotePad;
+import com.example.think.notepad.IView;
 import com.example.think.notepad.Location;
 import com.example.think.notepad.R;
 import com.example.think.notepad.Thread.NowLifestyleThread;
@@ -49,7 +50,7 @@ import static com.example.think.notepad.Contracts.FILE_NAME;
 *
 *
 * */
-public class WelcomeActivity extends Activity {
+public class WelcomeActivity extends Activity implements IView {
     public LocationClient mLocationClient;
     protected Context mContext;
 

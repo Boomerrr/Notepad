@@ -22,6 +22,7 @@ import android.widget.PopupWindow;
 import com.example.think.notepad.Adapter.MessageAdapter;
 import com.example.think.notepad.Base.BaseFragment;
 import com.example.think.notepad.Bean.message;
+import com.example.think.notepad.IView;
 import com.example.think.notepad.R;
 
 
@@ -37,7 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReceivedMessageFragment extends BaseFragment {
+public class ReceivedMessageFragment extends BaseFragment implements IView {
     final String SMS_URI_INBOX = "content://sms/inbox";
     private final String FILE_NAME = "telephone.txt";
     private SwipeRefreshLayout swipeRefreshLayout;

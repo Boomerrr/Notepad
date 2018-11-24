@@ -21,6 +21,7 @@ import com.example.think.notepad.Activity.WorkActivity;
 import com.example.think.notepad.AlarmReceiver;
 import com.example.think.notepad.Base.BaseFragment;
 import com.example.think.notepad.Bean.NotePad;
+import com.example.think.notepad.IView;
 import com.example.think.notepad.R;
 import com.example.think.notepad.SQLite.NotepadDatabaseHelper;
 
@@ -33,7 +34,7 @@ import static android.content.Context.ALARM_SERVICE;
 /*
 * Create By Boomerr Yi 2018/11/6
 * */
-public class AddFragment extends BaseFragment {
+public class AddFragment extends BaseFragment implements IView {
     private Calendar d  = Calendar.getInstance();
     private Calendar currentTime  = Calendar.getInstance();
     private NotepadDatabaseHelper notepadDatabaseHelper;

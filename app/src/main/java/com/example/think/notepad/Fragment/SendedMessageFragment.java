@@ -24,6 +24,7 @@ import android.widget.PopupWindow;
 import com.example.think.notepad.Adapter.MessageAdapter;
 import com.example.think.notepad.Base.BaseFragment;
 import com.example.think.notepad.Bean.message;
+import com.example.think.notepad.IView;
 import com.example.think.notepad.R;
 
 import java.sql.Date;
@@ -31,7 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SendedMessageFragment extends BaseFragment {
+public class SendedMessageFragment extends BaseFragment implements IView {
     final String SMS_URI_SEND = "content://sms/sent";
     SwipeRefreshLayout swipeRefreshLayout;
     private MessageAdapter messageAdapter;

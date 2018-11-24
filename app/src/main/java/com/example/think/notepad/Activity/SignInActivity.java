@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.think.notepad.IView;
 import com.example.think.notepad.R;
 import com.example.think.notepad.SQLite.UserDatabaseHelper;
 
@@ -22,7 +23,7 @@ import org.w3c.dom.Text;
 * 注册界面
 * Create by Boomerr Yi 2018/11/5
 * */
-public class SignInActivity extends Activity implements View.OnClickListener {
+public class SignInActivity extends Activity implements View.OnClickListener ,IView {
     private Button reset;//重置按钮
     private Button signin;//注册按钮
     private TextInputEditText username;//用户名输入
