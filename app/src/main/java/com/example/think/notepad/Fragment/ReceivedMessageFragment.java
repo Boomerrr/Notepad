@@ -1,9 +1,13 @@
 package com.example.think.notepad.Fragment;
 
+import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.FloatingActionButton;
@@ -22,7 +26,7 @@ import android.widget.PopupWindow;
 import com.example.think.notepad.Adapter.MessageAdapter;
 import com.example.think.notepad.Base.BaseFragment;
 import com.example.think.notepad.Bean.message;
-import com.example.think.notepad.IView;
+import com.example.think.notepad.Contracts;
 import com.example.think.notepad.R;
 
 
@@ -38,7 +42,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReceivedMessageFragment extends BaseFragment implements IView {
+public class ReceivedMessageFragment extends BaseFragment implements MessageAdapter.OnItemClickListener {
     final String SMS_URI_INBOX = "content://sms/inbox";
     private final String FILE_NAME = "telephone.txt";
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -55,6 +59,7 @@ public class ReceivedMessageFragment extends BaseFragment implements IView {
         init();
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_receive_message);
         messageAdapter = new MessageAdapter(messageList);
+        messageAdapter.setItemClickListener(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
@@ -231,5 +236,39 @@ public class ReceivedMessageFragment extends BaseFragment implements IView {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void onItemClick(int position) {
+        String data = messageList.get(position).getText();
+        final MediaPlayer mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(Contracts.AUDIO_BAIDU_HEAD + data + Contracts.AUDIO_BAIDU_LAST);
+            //3 准备播放
+            mediaPlayer.prepareAsync();
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mediaPlayer) {
+                    mediaPlayer.start();
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        AlertDialog dialog = null;
+       AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+       builder .setMessage(           //定义显示的文字
+                       "正在阅读...")
+                .setPositiveButton("关闭", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mediaPlayer.stop();
+                    }
+                });//显示对话框
+        dialog = builder.create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLUE);
+    }
+
 }
 

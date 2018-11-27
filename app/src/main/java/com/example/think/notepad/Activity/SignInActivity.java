@@ -1,29 +1,24 @@
 package com.example.think.notepad.Activity;
 
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.think.notepad.IView;
 import com.example.think.notepad.R;
 import com.example.think.notepad.SQLite.UserDatabaseHelper;
-
-import org.w3c.dom.Text;
 
 /*
 * 注册界面
 * Create by Boomerr Yi 2018/11/5
 * */
-public class SignInActivity extends Activity implements View.OnClickListener ,IView {
+public class SignInActivity extends Activity implements View.OnClickListener {
     private Button reset;//重置按钮
     private Button signin;//注册按钮
     private TextInputEditText username;//用户名输入

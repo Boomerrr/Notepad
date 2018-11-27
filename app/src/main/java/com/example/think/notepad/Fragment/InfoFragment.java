@@ -3,7 +3,6 @@ package com.example.think.notepad.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -12,21 +11,11 @@ import android.widget.ImageButton;
 
 import com.example.think.notepad.Activity.WorkActivity;
 import com.example.think.notepad.Base.BaseFragment;
-import com.example.think.notepad.IView;
 import com.example.think.notepad.R;
-
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class InfoFragment extends BaseFragment implements View.OnClickListener, IView {
+public class InfoFragment extends BaseFragment implements View.OnClickListener {
     private ImageButton imageButton1;
     private ImageButton imageButton2;
     private ImageButton imageButton3;

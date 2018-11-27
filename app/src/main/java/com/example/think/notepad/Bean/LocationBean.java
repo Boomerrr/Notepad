@@ -8,6 +8,15 @@ public class LocationBean {
     private String province;
     private String city;
     private String distract;
+    private String street;
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
 
     public String getCountry() {
         return country;

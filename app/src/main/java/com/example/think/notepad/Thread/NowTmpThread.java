@@ -34,7 +34,8 @@ public class NowTmpThread implements Runnable {
     }
     @Override
     public void run() {
-        HttpUtil.sendOkHttpRequeest(Contracts.WEATHER_NOW_TMP + distract + "&key="+Contracts.WETHER_API_KEY, new Callback() {
+        HttpUtil.sendOkHttpRequeest(Contracts.WEATHER_NOW_TMP + distract +
+                "&key="+Contracts.WETHER_API_KEY, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 //Toast.makeText(mContext,"请求失败",Toast.LENGTH_SHORT).show();

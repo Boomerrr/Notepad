@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Service;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -11,14 +12,13 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.think.notepad.Contracts;
-import com.example.think.notepad.IView;
 import com.example.think.notepad.R;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class AlarmActivity extends AppCompatActivity implements IView{
+public class AlarmActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,19 +46,23 @@ public class AlarmActivity extends AppCompatActivity implements IView{
         Vibrator vibrator = (Vibrator)getSystemService(Service.VIBRATOR_SERVICE);
         vibrator.cancel();
         vibrator.vibrate(1000);
-
-        new AlertDialog.Builder(this)//建立对话框
+        AlertDialog dialog = null;
+       AlertDialog.Builder builder =  new AlertDialog.Builder(this)//建立对话框
                 .setTitle("闹钟时间已到！")//设置对话框标题
                 .setMessage(           //定义显示的文字
                         "闹钟响起，现在时间："
                                 + new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒")
-                                .format(new Date()))
+                                .format(new Date()) + string)
                 .setPositiveButton("关闭", new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         AlarmActivity.this.finish();//关闭对话框后程序结束
                     }
-                }).show();//显示对话框
+                });
+       dialog = builder.create();
+       dialog.show();
+       dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLUE);
+
     }
 }

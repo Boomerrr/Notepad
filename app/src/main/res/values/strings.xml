@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Notepad</string>
+    <string name="app_name">微记事</string>
     <string name="login">登录</string>
     <string name="signin">注册</string>
     <string name="input_username">此处请输入账户</string>

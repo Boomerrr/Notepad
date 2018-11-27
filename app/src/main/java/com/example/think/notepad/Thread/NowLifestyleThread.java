@@ -29,7 +29,8 @@ public class NowLifestyleThread implements  Runnable {
     @Override
     public void run() {
 
-        HttpUtil.sendOkHttpRequeest(Contracts.WEATHER_LIFESTYLE +distract + "&key=" + Contracts.WETHER_API_KEY, new Callback() {
+        HttpUtil.sendOkHttpRequeest(Contracts.WEATHER_LIFESTYLE +distract + "&key=" +
+                Contracts.WETHER_API_KEY, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 //Toast.makeText(getActivity(),"请求失败",Toast.LENGTH_SHORT).show();

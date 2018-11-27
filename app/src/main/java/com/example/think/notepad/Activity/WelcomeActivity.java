@@ -2,7 +2,6 @@ package com.example.think.notepad.Activity;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,25 +21,14 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
 import com.example.think.notepad.Bean.LocationBean;
-import com.example.think.notepad.Bean.NotePad;
-import com.example.think.notepad.IView;
 import com.example.think.notepad.Location;
 import com.example.think.notepad.R;
 import com.example.think.notepad.Thread.NowLifestyleThread;
 import com.example.think.notepad.Thread.NowTmpThread;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
-
-import static com.example.think.notepad.Contracts.FILE_NAME;
 
 /*
 *Create By Boomerr Yi 2018/11/5
@@ -50,7 +38,7 @@ import static com.example.think.notepad.Contracts.FILE_NAME;
 *
 *
 * */
-public class WelcomeActivity extends Activity implements IView {
+public class WelcomeActivity extends Activity {
     public LocationClient mLocationClient;
     protected Context mContext;
 
@@ -60,9 +48,10 @@ public class WelcomeActivity extends Activity implements IView {
         setContentView(R.layout.activity_welcome);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        requestPermission();
+        //requestPermission();
         ActivityCompat.requestPermissions(WelcomeActivity.this, new String[]{
-                Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS }, 1);
+                Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS ,Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.READ_PHONE_STATE,Manifest.permission.WRITE_EXTERNAL_STORAGE }, 1);
         mContext = getApplicationContext();
         mLocationClient = new LocationClient(mContext);//获取定位对象
         mLocationClient.registerLocationListener(new MyLocationListener());
@@ -129,6 +118,8 @@ public class WelcomeActivity extends Activity implements IView {
             locationBean.setDistract(bdLocation.getDistrict());
             location.distract = bdLocation.getDistrict();
             String distract = bdLocation.getDistrict();
+            locationBean.setStreet(bdLocation.getStreet());
+            location.street = bdLocation.getStreet();
             Log.e("test----Boomerr", distract);
             Handler handlerLifestyle = new Handler(){
                 @Override

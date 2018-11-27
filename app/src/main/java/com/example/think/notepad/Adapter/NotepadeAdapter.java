@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.think.notepad.Bean.NotePad;
+import com.example.think.notepad.Fragment.MainFragment;
 import com.example.think.notepad.R;
 
 import org.w3c.dom.Text;
@@ -16,8 +17,16 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotepadeAdapter extends RecyclerView.Adapter<NotepadeAdapter.ViewHolder>{
+public class NotepadeAdapter extends RecyclerView.Adapter<NotepadeAdapter.ViewHolder> implements View.OnClickListener {
     private ArrayList<NotePad> notePadList;
+    private OnItemClickListener mItemClickListener;
+
+    @Override
+    public void onClick(View v) {
+        if (mItemClickListener!=null){
+            mItemClickListener.onItemClick((Integer) v.getTag());
+        }
+    }
 
     static  class ViewHolder extends RecyclerView.ViewHolder{
         TextView title;
@@ -53,6 +62,7 @@ public class NotepadeAdapter extends RecyclerView.Adapter<NotepadeAdapter.ViewHo
                 return true;
             }
         });
+        view.setOnClickListener(this);
         return holder;
     }
 
@@ -62,6 +72,7 @@ public class NotepadeAdapter extends RecyclerView.Adapter<NotepadeAdapter.ViewHo
         viewHolder.title.setText(notePad.getTitle());
         viewHolder.time.setText(notePad.getOrderTime());
         viewHolder.text.setText(notePad.getText());
+        viewHolder.itemView.setTag(i);
     }
 
 
@@ -69,8 +80,12 @@ public class NotepadeAdapter extends RecyclerView.Adapter<NotepadeAdapter.ViewHo
     public int getItemCount() {
         return notePadList.size();
     }
-    public interface OnClickListener {
-        void onClick(View view, int position);
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+    public void setItemClickListener(NotepadeAdapter.OnItemClickListener itemClickListener) {
+        mItemClickListener = itemClickListener;
     }
 
 }

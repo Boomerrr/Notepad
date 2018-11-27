@@ -1,8 +1,11 @@
 package com.example.think.notepad.Fragment;
 
-import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
@@ -11,37 +14,29 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewConfiguration;
-import android.widget.RelativeLayout;
-import android.widget.Toolbar;
 
 import com.example.think.notepad.Activity.WorkActivity;
 import com.example.think.notepad.Adapter.NotepadeAdapter;
 import com.example.think.notepad.Base.BaseFragment;
 import com.example.think.notepad.Bean.NotePad;
 
-import com.example.think.notepad.IView;
+import com.example.think.notepad.Contracts;
 import com.example.think.notepad.R;
 import com.example.think.notepad.SQLite.NotepadDatabaseHelper;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.lang.reflect.Array;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static android.content.Context.MODE_PRIVATE;
 import static com.example.think.notepad.Contracts.CREATER;
-import static com.example.think.notepad.Contracts.FILE_NAME;
+
 /*
 * Create by Boomerr Yi 2018/11/10
 *
 * */
-public class MainFragment extends BaseFragment implements IView {
+public class MainFragment extends BaseFragment implements NotepadeAdapter.OnItemClickListener {
 
     private NotepadDatabaseHelper notepadDatabaseHelper;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -56,6 +51,7 @@ public class MainFragment extends BaseFragment implements IView {
         recyclerView.setLayoutManager(layoutManager);
         init();
         notepadeAdapter = new NotepadeAdapter(notePadList);
+        notepadeAdapter.setItemClickListener(this);
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(notepadeAdapter);
         swipeRefreshLayoutFunction(view);
@@ -118,4 +114,37 @@ public class MainFragment extends BaseFragment implements IView {
         cursor.close();
     }
 
+
+    @Override
+    public void onItemClick(int position) {
+        String data = notePadList.get(position).getText();
+        final MediaPlayer mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(Contracts.AUDIO_BAIDU_HEAD + data + Contracts.AUDIO_BAIDU_LAST);
+            //3 准备播放
+            mediaPlayer.prepareAsync();
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mediaPlayer) {
+                    mediaPlayer.start();
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        AlertDialog dialog = null;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder .setMessage(           //定义显示的文字
+                "正在阅读...")
+                .setPositiveButton("关闭", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mediaPlayer.stop();
+                    }
+                });//显示对话框
+        dialog = builder.create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLUE);
+    }
 }

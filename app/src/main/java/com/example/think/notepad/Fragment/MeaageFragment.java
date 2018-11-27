@@ -3,19 +3,12 @@ package com.example.think.notepad.Fragment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.TableLayout;
 
 import com.example.think.notepad.Activity.WorkActivity;
 import com.example.think.notepad.Adapter.FragmentAdapter;
-import com.example.think.notepad.Adapter.MessageAdapter;
 import com.example.think.notepad.Base.BaseFragment;
-import com.example.think.notepad.Bean.message;
-import com.example.think.notepad.IView;
 import com.example.think.notepad.R;
 
 import java.util.ArrayList;
@@ -23,7 +16,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MeaageFragment extends BaseFragment implements IView {
+public class MeaageFragment extends BaseFragment {
 
     private ViewPager viewPager;
     private TabLayout tabs;

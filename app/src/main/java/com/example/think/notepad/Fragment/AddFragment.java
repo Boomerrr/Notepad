@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
@@ -21,7 +22,6 @@ import com.example.think.notepad.Activity.WorkActivity;
 import com.example.think.notepad.AlarmReceiver;
 import com.example.think.notepad.Base.BaseFragment;
 import com.example.think.notepad.Bean.NotePad;
-import com.example.think.notepad.IView;
 import com.example.think.notepad.R;
 import com.example.think.notepad.SQLite.NotepadDatabaseHelper;
 
@@ -34,7 +34,7 @@ import static android.content.Context.ALARM_SERVICE;
 /*
 * Create By Boomerr Yi 2018/11/6
 * */
-public class AddFragment extends BaseFragment implements IView {
+public class AddFragment extends BaseFragment {
     private Calendar d  = Calendar.getInstance();
     private Calendar currentTime  = Calendar.getInstance();
     private NotepadDatabaseHelper notepadDatabaseHelper;
@@ -78,10 +78,8 @@ public class AddFragment extends BaseFragment implements IView {
                         d.set(Calendar.MILLISECOND,0);
                         String date =hourOfDay + " : " + minute;
                         timePickerText.setText(date);
-                        Log.e("Boomerr---test1", String.valueOf(d.getTimeInMillis()));
-                        Log.e("Boomerr---test2", String.valueOf(currentTime.getTimeInMillis()));
-                        Log.e("Boomerr---test1", String.valueOf(hourOfDay));
-                        Log.e("Boomerr---test1", String.valueOf(minute));
+                        Log.e("Boomerr---test1--触发事件", String.valueOf(d.getTimeInMillis()));
+                        Log.e("Boomerr---test2--当前时间", String.valueOf(currentTime.getTimeInMillis()));
                     }
                 },currentTime.get(Calendar.HOUR_OF_DAY),currentTime.get(Calendar.MINUTE),true).show();
             }
@@ -92,7 +90,7 @@ public class AddFragment extends BaseFragment implements IView {
             public void onClick(View view) {
                 SQLiteDatabase db = notepadDatabaseHelper.getWritableDatabase();
                 ContentValues values = new ContentValues();
-                if (title.getText().toString().equals("") || timePickerText.getText().toString().equals("") || text.getText().toString().equals("")) {
+                if (title.getText().toString().equals("") ||  text.getText().toString().equals("")) {
                     Toast.makeText(getActivity(), "添加失败", Toast.LENGTH_SHORT).show();
                 } else {
                     values.put("title", title.getText().toString());
@@ -112,8 +110,13 @@ public class AddFragment extends BaseFragment implements IView {
                             getActivity(), 0, intent,
                             PendingIntent.FLAG_UPDATE_CURRENT);//指定PendingIntent
                     AlarmManager am = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        am.setExact(AlarmManager.RTC_WAKEUP, d.getTimeInMillis(), sender);
+                    }else {
+                        am.set(AlarmManager.RTC_WAKEUP, d.getTimeInMillis(), sender);
+                    }
                     am.set(AlarmManager.RTC_WAKEUP, d.getTimeInMillis(), sender);
-                    Log.e("Boomerr---test", String.valueOf(d.getTimeInMillis()));
+                    //Log.e("Boomerr---test", String.valueOf(d.getTimeInMillis()));
                     Toast.makeText(getActivity(), "闹钟添加成功", Toast.LENGTH_SHORT).show();
 
                     title.setText("");
